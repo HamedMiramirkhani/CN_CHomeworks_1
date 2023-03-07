@@ -7,20 +7,50 @@ CFLAGS = -std=c++11 -I$(INCLUDE_DIR)
 EXECUTABLE_FILE = server.out
 OBJECTS = \
 	$(BUILD_DIR)/server.o \
-	$(BUILD_DIR)/main.o
+	$(BUILD_DIR)/main.o \
+	$(BUILD_DIR)/cmdHandler.o \
+	$(BUILD_DIR)/jsonReader.o \
+	$(BUILD_DIR)/room.o \
+	$(BUILD_DIR)/user.o
+	
+userSensitivityList = \
+	$(SRC_DIR)/user.cpp
+
+jsonReaderSensitivityList = \
+	$(SRC_DIR)/jsonReader.cpp \
+	$(INCLUDE_DIR)/user.hpp
+
+cmdHandlerSensitivityList = \
+	$(SRC_DIR)/cmdHandler.cpp
+
+serverSensitivityList = \
+	$(SRC_DIR)/server.cpp \
+	$(INCLUDE_DIR)/cmdHandler.hpp 
+
+mainSensitivityList = \
+	$(SRC_DIR)/main.cpp \
+	$(INCLUDE_DIR)/server.hpp \
+
 
 all: $(BUILD_DIR) $(EXECUTABLE_FILE)
 
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
 
-
-$(BUILD_DIR)/main.o: $(SRC_DIR)/main.cpp $(INCLUDE_DIR)/server.hpp
+$(BUILD_DIR)/main.o: $(mainSensitivityList)
 	$(CC) $(CFLAGS) -c $(SRC_DIR)/main.cpp -o $(BUILD_DIR)/main.o
 
+$(BUILD_DIR)/server.o: $(serverSensitivityList)
+	$(CC) $(CFLAGS) -c $(SRC_DIR)/Server.cpp -o $(BUILD_DIR)/server.o
 
-$(BUILD_DIR)/server.o: $(SRC_DIR)/server.cpp $(INCLUDE_DIR)/server.hpp
-	$(CC) $(CFLAGS) -c $(SRC_DIR)/server.cpp -o $(BUILD_DIR)/server.o
+$(BUILD_DIR)/cmdHandler.o: $(cmdHandlerSensitivityList)
+	$(CC) $(CFLAGS) -c $(SRC_DIR)/cmdHandler.cpp -o $(BUILD_DIR)/cmdHandler.o
+
+$(BUILD_DIR)/jsonReader.o: $(ConfigReaderSensitivityList)
+	$(CC) $(CFLAGS) -c $(SRC_DIR)/jsonReader.cpp -o $(BUILD_DIR)/jsonReader.o
+
+$(BUILD_DIR)/user.o: $(UserSensitivityList)
+	$(CC) $(CFLAGS) -c $(SRC_DIR)/user.cpp -o $(BUILD_DIR)/user.o
 
 
 $(EXECUTABLE_FILE): $(OBJECTS)
