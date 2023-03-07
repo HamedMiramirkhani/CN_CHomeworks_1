@@ -16,7 +16,7 @@ public:
 
     JsonReader jsonReader;
     int commandChannelPort;
-    int dataChannelPort;
+    std::string hostName;
 };
 
 #endif

@@ -17,7 +17,7 @@ public:
     const std::string& rooms_path,
     const std::string& user_info_path);
     int getCommandChannelPort();
-    int getHostName();
+    std::string getHostName();
     
 private:
     std::string file_path;
