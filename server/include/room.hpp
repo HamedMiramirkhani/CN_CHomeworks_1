@@ -9,16 +9,16 @@ class Room
 {
 public:
     Room(
-        const std::string& number,
+        const int& number,
         const bool& status,
         const int& price,
         const int& maxCapacity,
         const int& capacityusers,
-        std::vector<User*> room_users
+        std::vector<User*> roomUsers
     );
 
     
-    std::string number;
+    int number;
     bool status;
     int price;
     int maxCapacity;

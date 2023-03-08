@@ -2,17 +2,25 @@
 
 User::User(
         const int& id,
-        const std::string& user,
+        const std::string& username,
         const std::string& password,
-        const bool& admin,
+        const bool& isAdmin,
         const std::string& purse,
         const std::string& phoneNumber,
-        const std::string& address
+        const std::string& address,
+        const int& numOfBeds,
+        std::string& reserveDate,
+        std::string& checkoutDate,
+        const int& userRoomNum
     ):
-        id(id), 
-        user(user), 
+        id(id),
+        username(username), 
         password(password),
-        admin(admin),
+        isAdmin(isAdmin),
         purse(purse),
         phoneNumber(phoneNumber),
-        address(address) {}
+        address(address),
+        numOfBeds(numOfBeds), 
+        reserveDate(reserveDate),
+        checkoutDate(checkoutDate),
+        userRoomNum(userRoomNum) {}

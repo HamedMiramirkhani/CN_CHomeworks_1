@@ -10,6 +10,8 @@ Server::Server(const std::string& config_path, const std::string& rooms_path,
 {
     hostName = jsonReader.getHostName();
     commandChannelPort = jsonReader.getCommandChannelPort();
+    allUsers = jsonReader.getUsers();
+    allRooms = jsonReader.getRooms();
 }
 
 struct sockaddr_in initialSocket(const int port) {

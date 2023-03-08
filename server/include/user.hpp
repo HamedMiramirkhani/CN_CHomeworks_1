@@ -8,21 +8,29 @@ class User
 public:
     User(
         const int& id,
-        const std::string& user,
+        const std::string& username,
         const std::string& password,
-        const bool& admin,
+        const bool& isAdmin,
         const std::string& purse,
         const std::string& phoneNumber,
-        const std::string& address
+        const std::string& address,
+        const int& numOfBeds,
+        std::string& reserveDate,
+        std::string& checkoutDate,
+        const int& userRoomNum
     );
 
     int id;
-    std::string user;
+    std::string username;
     std::string password;
-    bool admin;
+    bool isAdmin;
     std::string purse;
     std::string phoneNumber;
     std::string address;
+    int numOfBeds;
+    std::string reserveDate;
+    std::string checkoutDate;
+    int userRoomNum;
 };
 
 #endif

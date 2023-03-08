@@ -38,13 +38,27 @@ void JsonReader::readRoomsInfo(json j_rooms)
         int price = room["price"].get<int>();
         int maxCapacity = room["maxCapacity"].get<int>();
         int capacity = room["capacity"].get<int>();
+        std::vector<User*> roomUsers = {};
         for (auto& userInRoom: room["users"])
         {
             int id = userInRoom["id"];
+            std::string username = NOT_QUANTIFIED_STR;
+            std::string password = NOT_QUANTIFIED_STR;
+            bool is_admin = false;
+            std::string purse = NOT_QUANTIFIED_STR;
+            std::string phoneNumber = NOT_QUANTIFIED_STR;
+            std::string address = NOT_QUANTIFIED_STR;
             int numOfBeds = userInRoom["numOfBeds"];
             std::string reserveDate = userInRoom["reserveDate"];
             std::string checkoutDate = userInRoom["checkoutDate"];
+            int userRoomNum = number;
+
+            roomUsers.push_back(new User(id, username, password, 
+            is_admin, purse, phoneNumber, address, numOfBeds, 
+            reserveDate, checkoutDate, userRoomNum));
         }
+        allRooms.push_back(new Room(number, status, price,
+         maxCapacity, capacity, roomUsers));
     }
 }
 
@@ -56,12 +70,23 @@ void JsonReader::readUserInfo(json j_user)
         std::string username = user["user"].get<std::string>();
         std::string password = user["password"].get<std::string>();
         bool is_admin = user["admin"].get<std::string>() == "true";
+        std::string purse = NOT_QUANTIFIED_STR;
+        std::string phoneNumber = NOT_QUANTIFIED_STR;
+        std::string address = NOT_QUANTIFIED_STR;
+        int numOfBeds = NOT_QUANTIFIED_INT;
+        std::string reserveDate = NOT_QUANTIFIED_STR;
+        std::string checkoutDate = NOT_QUANTIFIED_STR;
+        int userRoomNum = NOT_QUANTIFIED_INT;
         if(!is_admin)
         {
-            std::string purse = user["purse"].get<std::string>();
-            std::string phoneNumber = user["phoneNumber"].get<std::string>();
-            std::string address = user["address"].get<std::string>();
+            purse = user["purse"].get<std::string>();
+            phoneNumber = user["phoneNumber"].get<std::string>();
+            address = user["address"].get<std::string>();
         }
+        User* newUser = new User(id, username, password, is_admin,
+         purse, phoneNumber, address, numOfBeds, 
+         reserveDate, checkoutDate, userRoomNum);
+        allUsers.push_back(newUser);
     }
 }
 
@@ -70,3 +95,9 @@ int JsonReader::getCommandChannelPort()
 
 std::string JsonReader::getHostName()
 { return hostName; }
+
+std::vector<User*> JsonReader::getUsers()
+{ return allUsers; }
+
+std::vector<Room*> JsonReader::getRooms()
+{ return allRooms; }

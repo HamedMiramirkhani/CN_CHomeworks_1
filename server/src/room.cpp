@@ -1,10 +1,10 @@
 #include "room.hpp"
 
 Room::Room(
-        const std::string& number,
-        const std::string& status,
+        const int& number,
+        const bool& status,
         const int& price,
-        const bool& maxCapacity,
+        const int& maxCapacity,
         const int& capacityusers,
         std::vector<User*> room_users
     ): 
