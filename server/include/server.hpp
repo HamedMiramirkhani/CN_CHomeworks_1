@@ -13,7 +13,6 @@ public:
             const std::string& rooms_path,
             const std::string& user_info_path);
     void run();
-    void handleConnection();
 
     JsonReader jsonReader;
     int commandChannelPort;
