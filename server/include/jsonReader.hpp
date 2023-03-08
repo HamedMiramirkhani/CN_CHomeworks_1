@@ -20,7 +20,6 @@ public:
     std::string getHostName();
     
 private:
-    std::string file_path;
     int commandChannelPort;
     std::string hostName;
 

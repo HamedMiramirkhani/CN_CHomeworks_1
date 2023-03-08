@@ -45,6 +45,7 @@ void JsonReader::readRoomsInfo(json j_rooms)
             std::string reserveDate = userInRoom["reserveDate"];
             std::string checkoutDate = userInRoom["checkoutDate"];
         }
+    }
 }
 
 void JsonReader::readUserInfo(json j_user)
