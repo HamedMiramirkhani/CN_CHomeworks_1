@@ -1,5 +1,6 @@
 #include "server.hpp"
 #include "cmdHandler.hpp"
+#include <sys/select.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <netinet/in.h>
@@ -44,11 +45,42 @@ void* handleConnection() {
 
 
 void Server::run() {
-    //socket
     
-    while (true) {
-        // connections
-        // thread
-        // handle connection
+    int fd_socket = setupServer(commandChannelPort, hostName);
+
+    fd_set master_set, working_set;
+    FD_ZERO(&master_set);
+    FD_ZERO(&working_set);
+    FD_SET(fd_socket, &master_set);
+    int max_fd = fd_socket;
+    int return_select;
+    
+
+    while(true)
+    {
+        working_set = master_set;       
+        return_select = select(max_fd + 1, &working_set, NULL, NULL, NULL);
+        if (return_select < 0) {
+            std::cerr << "Error in select" << std::endl;
+            exit(EXIT_FAILURE);
+        }
+
+        for (int i = 0; i <= max_fd; i++) {
+
+            ///check this next time 
+            if (FD_ISSET(i, &working_set)) {
+                if (i == fd_socket) {
+                    int new_socket = accept(fd_socket, NULL, NULL);
+                    FD_SET(new_socket, &master_set);
+                    if (new_socket > max_fd) {
+                        max_fd = new_socket;
+                    }
+                }
+                else {
+                    //handle connection
+                }
+            }
+            ///check this next time 
+        }
     }
 }
