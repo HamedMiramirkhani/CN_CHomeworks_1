@@ -48,5 +48,9 @@
         "forward_list": "cpp",
         "map": "cpp",
         "valarray": "cpp"
-    }
+    },
+    "cSpell.words": [
+        "capacityusers",
+        "USERINFO"
+    ]
 }
