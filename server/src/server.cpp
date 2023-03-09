@@ -1,6 +1,7 @@
 #include "server.hpp"
 #include "cmdHandler.hpp"
 #include <sys/socket.h>
+#include <arpa/inet.h>
 #include <netinet/in.h>
 
 Server::Server(const std::string& config_path, const std::string& rooms_path,
@@ -14,16 +15,16 @@ Server::Server(const std::string& config_path, const std::string& rooms_path,
     allRooms = jsonReader.getRooms();
 }
 
-struct sockaddr_in initialSocket(const int port) {
+struct sockaddr_in initialSocket(const int port,const std::string& hostName) {
     struct sockaddr_in address;
     address.sin_family = AF_INET;
-    address.sin_addr.s_addr = INADDR_ANY;
+    address.sin_addr.s_addr = inet_addr(hostName.c_str());
     address.sin_port = htons(port);
     return address;
 }
 
-int setupServer(int port) {
-    struct sockaddr_in address = initialSocket(port);
+int setupServer(int port,const std::string& hostName) {
+    struct sockaddr_in address = initialSocket(port, hostName);
     int server_fd = socket(AF_INET, SOCK_STREAM, 0);
     int opt = 1;
     setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
