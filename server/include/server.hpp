@@ -5,7 +5,6 @@
 #include "jsonReader.hpp"
 #include <string>
 
-
 class Server
 {
 public:
@@ -17,6 +16,8 @@ public:
     JsonReader jsonReader;
     int commandChannelPort;
     std::string hostName;
+    std::vector<User*> allUsers;
+    std::vector<Room*> allRooms; 
 };
 
 #endif
