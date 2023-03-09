@@ -29,7 +29,7 @@ int setupServer(int port,const std::string& hostName) {
     int opt = 1;
     setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
     bind(server_fd, (struct sockaddr *)&address, sizeof(address));
-    listen(server_fd, 4);
+    listen(server_fd, 8);
     return server_fd;
 }
 
