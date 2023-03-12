@@ -46,7 +46,6 @@ void* handleConnection() {
 
 
 void Server::run() {
-    
     int fd_socket = setupServer(commandChannelPort, hostName);
 
     fd_set master_set, working_set;
@@ -62,8 +61,9 @@ void Server::run() {
     char write_buffer[1024];
     memset(write_buffer, 0, sizeof(write_buffer));
 
-    while(true)
-    {
+
+
+    while(true) {
         working_set = master_set;       
         return_select = select(max_fd + 1, &working_set, NULL, NULL, NULL);
         if (return_select < 0) {

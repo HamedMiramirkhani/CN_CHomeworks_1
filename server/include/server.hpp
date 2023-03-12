@@ -13,6 +13,7 @@ public:
             const std::string& user_info_path);
     void run();
 
+private:
     JsonReader jsonReader;
     int commandChannelPort;
     std::string hostName;
