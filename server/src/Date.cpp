@@ -16,8 +16,8 @@ bool Date::setDate(const std::string &dateStr)
 
 bool Date::isValidDateFormat(const std::string &dateStr)
 {
-    // Regular expression to match a date in the format DD/MM/YYYY
-    std::regex dateRegex("\\d{2}/\\d{2}/\\d{4}");
+    // Regular expression to match a date in the format DD-MM-YYYY
+    std::regex dateRegex("\\d{2}-\\d{2}-\\d{4}");
     if(!std::regex_match(dateStr, dateRegex))
         return false;
     
