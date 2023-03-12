@@ -2,12 +2,10 @@
 
 using namespace std;
 
-const int CONFIG_PATH_INDX = 1;
-const int ROOM_PATH_INDX = 2;
-const int USERINFO_PATH_INDX = 3;
+const string PATH_JSON = "../json_files/";
 
 int main(int argc, char const *argv[]) {
-    Server server = Server(argv[CONFIG_PATH_INDX], argv[ROOM_PATH_INDX], argv[USERINFO_PATH_INDX]);
+    Server server = Server(PATH_JSON + "config.json", PATH_JSON + "Roomsinfo.json", PATH_JSON + "Usersinfo.json");
     server.run();
     return 0;
 }
