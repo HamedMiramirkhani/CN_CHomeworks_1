@@ -4,13 +4,7 @@
 #include <vector>
 #include "jsonReader.hpp"
 #include <string>
-
-struct Date
-{
-    int year;
-    int month;
-    int day;
-};
+#include "Date.hpp"
 
 class Server
 {
@@ -26,7 +20,9 @@ private:
     std::string hostName;
     std::vector<User*> allUsers;
     std::vector<Room*> allRooms; 
-    Date date;
+    Date CurrentDate;
+
+    void setServerDate(void);
 };
 
 #endif
