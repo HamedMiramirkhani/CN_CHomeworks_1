@@ -11,9 +11,9 @@ OBJECTS = \
 
 all: $(BUILD_DIR) $(EXECUTABLE_FILE)
 
-$(BUILD_DIR):
-	mkdir -p $(BUILD_DIR)
 
+$(EXECUTABLE_FILE): $(OBJECTS)
+	$(CC) $(CFLAGS) $(OBJECTS) -o $(EXECUTABLE_FILE)
 
 $(BUILD_DIR)/main.o: $(SRC_DIR)/main.cpp $(INCLUDE_DIR)/client.hpp
 	$(CC) $(CFLAGS) -c $(SRC_DIR)/main.cpp -o $(BUILD_DIR)/main.o
@@ -22,9 +22,9 @@ $(BUILD_DIR)/main.o: $(SRC_DIR)/main.cpp $(INCLUDE_DIR)/client.hpp
 $(BUILD_DIR)/client.o: $(SRC_DIR)/client.cpp $(INCLUDE_DIR)/client.hpp
 	$(CC) $(CFLAGS) -c $(SRC_DIR)/client.cpp -o $(BUILD_DIR)/client.o
 
+$(BUILD_DIR):
+	mkdir -p $(BUILD_DIR)
 
-$(EXECUTABLE_FILE): $(OBJECTS)
-	$(CC) $(CFLAGS) $(OBJECTS) -o $(EXECUTABLE_FILE)
 
 .PHONY: clean
 clean:
