@@ -34,8 +34,14 @@ mainSensitivityList = \
 
 all: $(BUILD_DIR) $(EXECUTABLE_FILE)
 
+$(EXECUTABLE_FILE): $(OBJECTS)
+	$(CC) $(CFLAGS) $(OBJECTS) -o $(EXECUTABLE_FILE)
+
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
+
+$(BUILD_DIR)/room.o: $(roomSensitivityList)
+	$(CC) $(CFLAGS) -c $(SRC_DIR)/room.cpp -o $(BUILD_DIR)/room.o
 
 $(BUILD_DIR)/main.o: $(mainSensitivityList)
 	$(CC) $(CFLAGS) -c $(SRC_DIR)/main.cpp -o $(BUILD_DIR)/main.o
@@ -52,9 +58,6 @@ $(BUILD_DIR)/jsonReader.o: $(ConfigReaderSensitivityList)
 $(BUILD_DIR)/user.o: $(UserSensitivityList)
 	$(CC) $(CFLAGS) -c $(SRC_DIR)/user.cpp -o $(BUILD_DIR)/user.o
 
-
-$(EXECUTABLE_FILE): $(OBJECTS)
-	$(CC) $(CFLAGS) $(OBJECTS) -o $(EXECUTABLE_FILE)
 
 .PHONY: clean
 clean:
