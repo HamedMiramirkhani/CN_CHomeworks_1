@@ -84,7 +84,8 @@ void Server::run() {
                 }
                 else {
                     int EOF_recv = recv(i, read_buffer, sizeof(read_buffer), 0);
-                    if (EOF_recv == 0) {
+                    if (EOF_recv == 0) { // client disconnected
+                        std::cout << "Client " << i << " disconnected" << std::endl;
                         close(i);
                         FD_CLR(i, &master_set);
                     }
