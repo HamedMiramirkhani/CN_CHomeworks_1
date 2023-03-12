@@ -2,6 +2,7 @@
 #include "cmdHandler.hpp"
 #include <sys/select.h>
 #include <sys/socket.h>
+#include <unistd.h>
 #include <arpa/inet.h>
 #include <netinet/in.h>
 
@@ -55,6 +56,11 @@ void Server::run() {
     int max_fd = fd_socket;
     int return_select;
     
+    char read_buffer[1024];
+    memset(read_buffer, 0, sizeof(read_buffer));
+
+    char write_buffer[1024];
+    memset(write_buffer, 0, sizeof(write_buffer));
 
     while(true)
     {
@@ -77,7 +83,22 @@ void Server::run() {
                     }
                 }
                 else {
-                    //handle connection
+                    int EOF_recv = recv(i, read_buffer, sizeof(read_buffer), 0);
+                    if (EOF_recv == 0) {
+                        close(i);
+                        FD_CLR(i, &master_set);
+                    }
+                    else {
+                        // print client i sent message
+                        std::cout << "Client " << i << " sent message: ";
+                        std::cout << read_buffer << std::endl; 
+                        memset(read_buffer, 0, sizeof(read_buffer));
+                        // send message to client i
+                        std::string message = "Hello Client " + std::to_string(i);
+                        strcpy(write_buffer, message.c_str());
+                        send(i, write_buffer, sizeof(write_buffer), 0);
+                        memset(write_buffer, 0, sizeof(write_buffer));
+                    }
                 }
             }
             ///check this next time 

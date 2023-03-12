@@ -1,5 +1,5 @@
 #include "client.hpp"
-#include "jsonReader.hpp"
+#include "../include/jsonReader.hpp"
 #include <sys/socket.h>
 #include <string.h>
 #include <arpa/inet.h>
@@ -23,6 +23,8 @@ int connectServer(int port, const std::string& hostName)
     serverAddress.sin_family = AF_INET;
     serverAddress.sin_port = htons(port);
     serverAddress.sin_addr.s_addr = inet_addr(hostNameArray);
+    int opt = 1;
+    setsockopt(fd, SOL_SOCKET, SO_REUSEPORT, &opt, sizeof(opt));
     if (connect(fd, (struct sockaddr *)&serverAddress, sizeof(serverAddress)) < 0)
     {
         std::cout<<"Error in connecting to server\n";
@@ -35,13 +37,14 @@ void Client::run() {
     std::ifstream f("config.json");
     json j_config;
     f >> j_config;
-    int command_fd = connectServer(j_config["commandChannelPort"], j_config["hostName"]);
+    int fd_to_server = connectServer(j_config["commandChannelPort"], j_config["hostName"]);
     
     std::string command;
     char read_buffer[1024];
+    memset(read_buffer, 0, sizeof(read_buffer));
     while(std::getline(std::cin, command)) {
-        send(command_fd, command.c_str(), command.size(), 0);
-        recv(command_fd, read_buffer, sizeof(read_buffer), 0);
+        send(fd_to_server, command.c_str(), command.size(), 0);
+        recv(fd_to_server, read_buffer, sizeof(read_buffer), 0);
         std::cout << read_buffer << std::endl;
     }
 }
