@@ -45,6 +45,26 @@ void* handleConnection() {
 }
 
 
+
+void Server::setServerDate(void)
+{
+    std::string In_date;
+    while (true)
+    {
+        std::cout << "setTime ";
+        std::cin >> In_date;
+        if (CurrentDate.setDate(In_date))
+        {
+            break;
+        }
+        else
+        {
+            std::cout << termcolor::red << "Error 401: Invalid value!" << termcolor::reset << std::endl;
+        }
+    }
+}
+
+
 void Server::run() {
     int fd_socket = setupServer(commandChannelPort, hostName);
 
@@ -61,7 +81,7 @@ void Server::run() {
     char write_buffer[1024];
     memset(write_buffer, 0, sizeof(write_buffer));
 
-
+    setServerDate();
 
     while(true) {
         working_set = master_set;       

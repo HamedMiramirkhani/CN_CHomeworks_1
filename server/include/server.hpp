@@ -5,6 +5,7 @@
 #include "jsonReader.hpp"
 #include <string>
 #include "Date.hpp"
+#include "termcolor.hpp"
 
 class Server
 {
