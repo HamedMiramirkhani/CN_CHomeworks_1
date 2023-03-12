@@ -1,4 +1,4 @@
-#include "client.hpp"
+#include "../include/client.hpp"
 #include "../include/jsonReader.hpp"
 #include <sys/socket.h>
 #include <string.h>
