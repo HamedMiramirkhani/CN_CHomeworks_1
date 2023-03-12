@@ -7,22 +7,14 @@
 
 Client::Client() {}
 
-char* strToCharArray(const std::string& str)
-{
-    char charArray[str.length() + 1]; 
-	strcpy(charArray, str.c_str());
-    return charArray;
-}
-
 int connectServer(int port, const std::string& hostName)
 {
-    char* hostNameArray = strToCharArray(hostName);
     int fd = socket(AF_INET, SOCK_STREAM, 0);
 
     struct sockaddr_in serverAddress;
     serverAddress.sin_family = AF_INET;
     serverAddress.sin_port = htons(port);
-    serverAddress.sin_addr.s_addr = inet_addr(hostNameArray);
+    serverAddress.sin_addr.s_addr = inet_addr(hostName.c_str());
     int opt = 1;
     setsockopt(fd, SOL_SOCKET, SO_REUSEPORT, &opt, sizeof(opt));
     if (connect(fd, (struct sockaddr *)&serverAddress, sizeof(serverAddress)) < 0)
