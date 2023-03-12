@@ -11,7 +11,8 @@ OBJECTS = \
 	$(BUILD_DIR)/cmdHandler.o \
 	$(BUILD_DIR)/jsonReader.o \
 	$(BUILD_DIR)/room.o \
-	$(BUILD_DIR)/user.o
+	$(BUILD_DIR)/user.o \
+	$(BUILD_DIR)/Date.o
 	
 userSensitivityList = \
 	$(SRC_DIR)/user.cpp
@@ -35,6 +36,10 @@ ConfigReaderSensitivityList = \
 	$(SRC_DIR)/jsonReader.cpp \
 	$(INCLUDE_DIR)/user.hpp
 
+dateSensitivityList = \
+	$(SRC_DIR)/Date.cpp \
+	$(INCLUDE_DIR)/Date.hpp
+
 all: $(BUILD_DIR) $(EXECUTABLE_FILE)
 
 $(EXECUTABLE_FILE): $(OBJECTS)
@@ -57,6 +62,9 @@ $(BUILD_DIR)/jsonReader.o: $(ConfigReaderSensitivityList)
 
 $(BUILD_DIR)/user.o: $(UserSensitivityList)
 	$(CC) $(CFLAGS) -c $(SRC_DIR)/user.cpp -o $(BUILD_DIR)/user.o
+
+$(BUILD_DIR)/Date.o: $(dateSensitivityList)
+	$(CC) $(CFLAGS) -c $(SRC_DIR)/Date.cpp -o $(BUILD_DIR)/Date.o
 
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
