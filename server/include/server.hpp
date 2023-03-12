@@ -5,6 +5,13 @@
 #include "jsonReader.hpp"
 #include <string>
 
+struct Date
+{
+    int year;
+    int month;
+    int day;
+};
+
 class Server
 {
 public:
@@ -19,6 +26,7 @@ private:
     std::string hostName;
     std::vector<User*> allUsers;
     std::vector<Room*> allRooms; 
+    Date date;
 };
 
 #endif
