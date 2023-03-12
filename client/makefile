@@ -23,7 +23,7 @@ $(BUILD_DIR)/main.o: $(SRC_DIR)/main.cpp $(INCLUDE_DIR)/client.hpp
 $(BUILD_DIR)/client.o: $(SRC_DIR)/client.cpp $(INCLUDE_DIR)/client.hpp
 	$(CC) $(CFLAGS) -c $(SRC_DIR)/client.cpp -o $(BUILD_DIR)/client.o
 
-$(BUILD_DIR)/jsonReader.o: $(ConfigReaderSensitivityList)
+$(BUILD_DIR)/jsonReader.o: $(SRC_DIR)/jsonReader.cpp $(INCLUDE_DIR)/jsonReader.hpp
 	$(CC) $(CFLAGS) -c $(SRC_DIR)/jsonReader.cpp -o $(BUILD_DIR)/jsonReader.o
 
 $(BUILD_DIR):
