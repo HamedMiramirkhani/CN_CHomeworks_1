@@ -33,7 +33,7 @@ void JsonReader::readRoomsInfo(json j_rooms)
 {
     for (auto& room: j_rooms["rooms"])
     {
-        int number = room["number"].get<int>();
+        int number = stoi(room["number"].get<std::string>());
         int status = room["status"].get<int>();
         int price = room["price"].get<int>();
         int maxCapacity = room["maxCapacity"].get<int>();
