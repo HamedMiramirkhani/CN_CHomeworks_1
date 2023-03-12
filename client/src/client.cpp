@@ -26,7 +26,7 @@ int connectServer(int port, const std::string& hostName)
 }
 
 void Client::run() {
-    std::ifstream f("config.json");
+    std::ifstream f("../json_files/config.json");
     json j_config;
     f >> j_config;
     int fd_to_server = connectServer(j_config["commandChannelPort"], j_config["hostName"]);
