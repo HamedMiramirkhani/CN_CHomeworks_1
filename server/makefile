@@ -18,7 +18,7 @@ userSensitivityList = \
 
 jsonReaderSensitivityList = \
 	$(SRC_DIR)/jsonReader.cpp \
-	$(INCLUDE_DIR)/user.hpp
+	$(INCLUDE_DIR)/jsonReader.hpp
 
 cmdHandlerSensitivityList = \
 	$(SRC_DIR)/cmdHandler.cpp
@@ -31,6 +31,9 @@ mainSensitivityList = \
 	$(SRC_DIR)/main.cpp \
 	$(INCLUDE_DIR)/server.hpp \
 
+ConfigReaderSensitivityList = \
+	$(SRC_DIR)/jsonReader.cpp \
+	$(INCLUDE_DIR)/user.hpp
 
 all: $(BUILD_DIR) $(EXECUTABLE_FILE)
 
