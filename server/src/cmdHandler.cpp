@@ -1,5 +1,5 @@
 #include "cmdHandler.hpp"
-#include <iostream>
+#include "consts.hpp"
 
 CmdHandler::CmdHandler() 
 {

@@ -1,6 +1,7 @@
 #include "logger.hpp"
+#include "consts.hpp"
 
-Logger::Logger(){ fileName = "log.txt"; }
+Logger::Logger() { fileName = LOGGER_FILE_NAME; }
 
 void Logger::writeMsg(std::string message)
 {

@@ -1,11 +1,10 @@
-#include "../include/server.hpp"
+#include "server.hpp"
+#include "consts.hpp"
 
-using namespace std;
-
-const string PATH_JSON = "../json_files/";
-
-int main(int argc, char const *argv[]) {
-    Server server = Server(PATH_JSON + "config.json", PATH_JSON + "Roomsinfo.json", PATH_JSON + "Usersinfo.json");
+int main(int argc, char const *argv[])
+{
+    Server server = Server(CONFIG_FILE_NAME,
+     ROOM_FILE_NAME, USER_FILE_NAME);
     server.run();
     return 0;
 }

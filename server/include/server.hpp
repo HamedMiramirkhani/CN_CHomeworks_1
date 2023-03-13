@@ -4,7 +4,8 @@
 #include <vector>
 #include "jsonReader.hpp"
 #include <string>
-#include "Date.hpp"
+#include "date.hpp"
+#include "logger.hpp"
 #include "termcolor.hpp"
 
 class Server
@@ -17,6 +18,7 @@ public:
 
 private:
     JsonReader jsonReader;
+    Logger serverLoger;
     int commandChannelPort;
     std::string hostName;
     std::vector<User*> allUsers;

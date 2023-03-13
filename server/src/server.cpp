@@ -1,10 +1,6 @@
 #include "server.hpp"
 #include "cmdHandler.hpp"
-#include <sys/select.h>
-#include <sys/socket.h>
-#include <unistd.h>
-#include <arpa/inet.h>
-#include <netinet/in.h>
+#include "consts.hpp"
 
 Server::Server(
 const std::string& configPath, 
