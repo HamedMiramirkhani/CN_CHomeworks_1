@@ -10,9 +10,9 @@
 class Server
 {
 public:
-    Server(const std::string& config_path,
-            const std::string& rooms_path,
-            const std::string& user_info_path);
+    Server(const std::string& configPath,
+            const std::string& roomsPath,
+            const std::string& userInfoPath);
     void run();
 
 private:
@@ -21,10 +21,10 @@ private:
     std::string hostName;
     std::vector<User*> allUsers;
     std::vector<Room*> allRooms; 
-    Date CurrentDate;
+    Date currentDate;
 
     void setServerDate(void);
-    void handleConnection(int fd_socket);
+    void handleConnection(int fdSocket);
 };
 
 #endif

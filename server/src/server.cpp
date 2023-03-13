@@ -7,10 +7,10 @@
 #include <netinet/in.h>
 
 Server::Server(
-const std::string& config_path, 
-const std::string& rooms_path,
-const std::string& user_info_path) 
-:jsonReader(JsonReader(config_path, rooms_path, user_info_path))
+const std::string& configPath, 
+const std::string& roomsPath,
+const std::string& userInfoPath) 
+:jsonReader(JsonReader(configPath, roomsPath, userInfoPath))
 {
     hostName = jsonReader.getHostName();
     commandChannelPort = jsonReader.getCommandChannelPort();
@@ -28,12 +28,14 @@ struct sockaddr_in initialSocket(const int port,const std::string& hostName) {
 
 int setupServer(int port,const std::string& hostName) {
     struct sockaddr_in address = initialSocket(port, hostName);
-    int server_fd = socket(AF_INET, SOCK_STREAM, 0);
+    int serverFd = socket(AF_INET, SOCK_STREAM, 0);
     int opt = 1;
-    setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
-    bind(server_fd, (struct sockaddr *)&address, sizeof(address));
-    listen(server_fd, 8);
-    return server_fd;
+
+    setsockopt(serverFd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
+    bind(serverFd, (struct sockaddr *)&address, sizeof(address));
+    listen(serverFd, 8);
+
+    return serverFd;
 }
 
 
@@ -41,12 +43,12 @@ int setupServer(int port,const std::string& hostName) {
 
 void Server::setServerDate(void)
 {
-    std::string In_date;
+    std::string InDate;
     while (true)
     {
         std::cout << "setTime ";
-        std::cin >> In_date;
-        if (CurrentDate.setDate(In_date))
+        std::cin >> InDate;
+        if (currentDate.setDate(InDate))
         {
             break;
         }
@@ -57,67 +59,67 @@ void Server::setServerDate(void)
     }
 }
 
-void Server::handleConnection(int fd_socket)
+void Server::handleConnection(int fdSocket)
 {
     CmdHandler* commandHandler = new CmdHandler();
 
-    fd_set master_set, working_set;
-    FD_ZERO(&master_set);
-    FD_ZERO(&working_set);
-    FD_SET(fd_socket, &master_set);
+    fd_set masterSet, workingSet;
+    FD_ZERO(&masterSet);
+    FD_ZERO(&workingSet);
+    FD_SET(fdSocket, &masterSet);
 
-    int return_select;
-    int max_fd = fd_socket;
+    int returnSelect;
+    int maxFd = fdSocket;
 
-    char read_buffer[1024];
-    memset(read_buffer, 0, sizeof(read_buffer));
-    char write_buffer[1024];
-    memset(write_buffer, 0, sizeof(write_buffer));
+    char readBuffer[1024];
+    memset(readBuffer, 0, sizeof(readBuffer));
+    char writeBuffer[1024];
+    memset(writeBuffer, 0, sizeof(writeBuffer));
 
     while(true)
     {
-        working_set = master_set;       
-        return_select = select(max_fd + 1, &working_set, NULL, NULL, NULL);
-        if (return_select < 0)
+        workingSet = masterSet;       
+        returnSelect = select(maxFd + 1, &workingSet, NULL, NULL, NULL);
+        if (returnSelect < 0)
         {
             std::cerr << "Error in select" << std::endl;
             exit(EXIT_FAILURE);
         }
 
-        for (int i = 0; i <= max_fd; i++)
+        for (int i = 0; i <= maxFd; i++)
         { 
-            if (FD_ISSET(i, &working_set))
+            if (FD_ISSET(i, &workingSet))
             {
-                if (i == fd_socket) // new connection
+                if (i == fdSocket) // new connection
                 {
-                    int new_socket = accept(fd_socket, NULL, NULL);
-                    FD_SET(new_socket, &master_set);
-                    if (new_socket > max_fd)
+                    int newSocket = accept(fdSocket, NULL, NULL);
+                    FD_SET(newSocket, &masterSet);
+                    if (newSocket > maxFd)
                     {
-                        max_fd = new_socket;
+                        maxFd = newSocket;
                     }
                 }
                 else // existing connection
                 {
-                    int EOF_recv = recv(i, read_buffer, sizeof(read_buffer), 0);
-                    if (EOF_recv == 0)
+                    int EOFrecv = recv(i, readBuffer, sizeof(readBuffer), 0);
+                    if (EOFrecv == 0)
                     { // client disconnected
                         std::cout << "Client " << i << " disconnected" << std::endl;
                         close(i);
-                        FD_CLR(i, &master_set);
+                        FD_CLR(i, &masterSet);
                     }
                     else
                     {
-                        commandHandler->runCommand(i, read_buffer);
+                        commandHandler->runCommand(i, readBuffer);
 
                         // send message to client
                         std::string message = "Hello Client " + std::to_string(i);
-                        strcpy(write_buffer, message.c_str());
-                        send(i, write_buffer, sizeof(write_buffer), 0);
+                        strcpy(writeBuffer, message.c_str());
+                        send(i, writeBuffer, sizeof(writeBuffer), 0);
 
                         // clear buffers
-                        memset(write_buffer, 0, sizeof(write_buffer));
-                        memset(read_buffer, 0, sizeof(read_buffer));
+                        memset(writeBuffer, 0, sizeof(writeBuffer));
+                        memset(readBuffer, 0, sizeof(readBuffer));
                     }
                 }
                 break;
@@ -128,9 +130,9 @@ void Server::handleConnection(int fd_socket)
 
 void Server::run()
 {
-    int fd_socket = setupServer(commandChannelPort, hostName);
+    int fdSocket = setupServer(commandChannelPort, hostName);
 
     setServerDate();
 
-    handleConnection(fd_socket);
+    handleConnection(fdSocket);
 }

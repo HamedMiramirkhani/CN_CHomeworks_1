@@ -9,15 +9,13 @@ class Room
 {
 public:
     Room(
-        const int& number,
-        const bool& status,
-        const int& price,
-        const int& maxCapacity,
-        const int& capacityusers,
-        std::vector<User*> roomUsers
+        const int& _number,
+        const bool& _status,
+        const int& _price,
+        const int& _maxCapacity,
+        const int& _capacityUsers,
+        std::vector<User*> _roomUsers
     );
-
-    
     int number;
     bool status;
     int price;

@@ -18,23 +18,23 @@ const int NOT_QUANTIFIED_INT = -1;
 class JsonReader
 {
 public:
-    JsonReader(const std::string& config_path, const std::string& rooms_path, const std::string& user_info_path);
+    JsonReader(const std::string& configPath, const std::string& roomsPath, const std::string& userInfoPath);
     int getCommandChannelPort();
     std::string getHostName();
     std::vector<User*> getUsers();
     std::vector<Room*> getRooms();
     
 private:
-    void read(const std::string& config_path, const std::string& rooms_path, const std::string& user_info_path);
+    void read(const std::string& configPath, const std::string& roomsPath, const std::string& userInfoPath);
 
     int commandChannelPort;
     std::string hostName;
-    void readConfig(json j_config);
+    void readConfig(json configJson);
     
-    void readUserInfo(json j_user);
+    void readUserInfo(json userJson);
     std::vector<User*> allUsers;
 
-    void readRoomsInfo(json j_room);
+    void readRoomsInfo(json roomJson);
     std::vector<Room*> allRooms; 
 };
 

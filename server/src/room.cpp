@@ -1,16 +1,16 @@
 #include "room.hpp"
 
 Room::Room(
-        const int& number,
-        const bool& status,
-        const int& price,
-        const int& maxCapacity,
-        const int& capacityusers,
-        std::vector<User*> room_users
+        const int& _number,
+        const bool& _status,
+        const int& _price,
+        const int& _maxCapacity,
+        const int& _capacityUsers,
+        std::vector<User*> _roomUsers
     ): 
-        number(number), 
-        status(status), 
-        price(price),
-        maxCapacity(maxCapacity),
-        capacityUsers(capacityUsers),
-        roomUsers(roomUsers) {}
+        number(_number), 
+        status(_status), 
+        price(_price),
+        maxCapacity(_maxCapacity),
+        capacityUsers(_capacityUsers),
+        roomUsers(_roomUsers) {}

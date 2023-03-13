@@ -1,37 +1,37 @@
 #include "../include/jsonReader.hpp"
 
-JsonReader::JsonReader(const std::string& config_path,
- const std::string& rooms_path,
- const std::string& user_info_path
+JsonReader::JsonReader(const std::string& configPath,
+ const std::string& roomsPath,
+ const std::string& userInfoPath
 )
 {
-    read(config_path, rooms_path, user_info_path);
+    read(configPath, roomsPath, userInfoPath);
 }
 
-void JsonReader::read(const std::string& config_path,
- const std::string& rooms_path,
- const std::string& user_info_path) 
+void JsonReader::read(const std::string& configPath,
+ const std::string& roomsPath,
+ const std::string& userInfoPath) 
  {
-    std::ifstream f1(config_path), f2(rooms_path), f3(user_info_path);
-    json j_config, j_rooms, j_user;
-    f1 >> j_config;
-    f2 >> j_rooms;
-    f3 >> j_user;
+    std::ifstream f1(configPath), f2(roomsPath), f3(userInfoPath);
+    json configJson, roomJson, userJson;
+    f1 >> configJson;
+    f2 >> roomJson;
+    f3 >> userJson;
 
-    readConfig(j_config);
-    readRoomsInfo(j_rooms);
-    readUserInfo(j_user);
+    readConfig(configJson);
+    readRoomsInfo(roomJson);
+    readUserInfo(userJson);
 }
 
-void JsonReader::readConfig(json j_config)
+void JsonReader::readConfig(json configJson)
 {
-    commandChannelPort = j_config["commandChannelPort"];
-    hostName = j_config["hostName"];
+    commandChannelPort = configJson["commandChannelPort"];
+    hostName = configJson["hostName"];
 }
 
-void JsonReader::readRoomsInfo(json j_rooms)
+void JsonReader::readRoomsInfo(json roomJson)
 {
-    for (auto& room: j_rooms["rooms"])
+    for (auto& room: roomJson["rooms"])
     {
         int number = stoi(room["number"].get<std::string>());
         int status = room["status"].get<int>();
@@ -44,7 +44,7 @@ void JsonReader::readRoomsInfo(json j_rooms)
             int id = userInRoom["id"];
             std::string username = NOT_QUANTIFIED_STR;
             std::string password = NOT_QUANTIFIED_STR;
-            bool is_admin = false;
+            bool isAdmin = false;
             std::string purse = NOT_QUANTIFIED_STR;
             std::string phoneNumber = NOT_QUANTIFIED_STR;
             std::string address = NOT_QUANTIFIED_STR;
@@ -54,7 +54,7 @@ void JsonReader::readRoomsInfo(json j_rooms)
             int userRoomNum = number;
 
             roomUsers.push_back(new User(id, username, password, 
-            is_admin, purse, phoneNumber, address, numOfBeds, 
+            isAdmin, purse, phoneNumber, address, numOfBeds, 
             reserveDate, checkoutDate, userRoomNum));
         }
         allRooms.push_back(new Room(number, status, price,
@@ -62,14 +62,14 @@ void JsonReader::readRoomsInfo(json j_rooms)
     }
 }
 
-void JsonReader::readUserInfo(json j_user)
+void JsonReader::readUserInfo(json userJson)
 {
-    for (auto& user: j_user["users"])
+    for (auto& user: userJson["users"])
     {
         int id = user["id"].get<int>();
         std::string username = user["user"].get<std::string>();
         std::string password = user["password"].get<std::string>();
-        bool is_admin = user["admin"].get<std::string>() == "true";
+        bool isAdmin = user["admin"].get<std::string>() == "true";
         std::string purse = NOT_QUANTIFIED_STR;
         std::string phoneNumber = NOT_QUANTIFIED_STR;
         std::string address = NOT_QUANTIFIED_STR;
@@ -77,13 +77,13 @@ void JsonReader::readUserInfo(json j_user)
         std::string reserveDate = NOT_QUANTIFIED_STR;
         std::string checkoutDate = NOT_QUANTIFIED_STR;
         int userRoomNum = NOT_QUANTIFIED_INT;
-        if(!is_admin)
+        if(!isAdmin)
         {
             purse = user["purse"].get<std::string>();
             phoneNumber = user["phoneNumber"].get<std::string>();
             address = user["address"].get<std::string>();
         }
-        User* newUser = new User(id, username, password, is_admin,
+        User* newUser = new User(id, username, password, isAdmin,
          purse, phoneNumber, address, numOfBeds, 
          reserveDate, checkoutDate, userRoomNum);
         allUsers.push_back(newUser);
