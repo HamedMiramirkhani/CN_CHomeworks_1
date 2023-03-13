@@ -23,6 +23,8 @@ public:
 private:
     std::vector<std::string> splitString(const std::string& s, char delimiter);
 
+    void signin(int fd, std::vector<std::string> splitted_buffer);
+
     class Fd_id
     {
     public:

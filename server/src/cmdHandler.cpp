@@ -21,17 +21,21 @@ std::vector<std::string> CmdHandler::splitString(const std::string& s, char deli
     return tokens;
 }
 
+void CmdHandler::signin(int fd, std::vector<std::string> splitted_buffer)
+{
+    std::cout << "signin" << std::endl;
+}
+
 void CmdHandler::runCommand(int fd, char* read_buffer)
 {    
     std::vector<std::string> splitted_buffer = splitString(std::string(read_buffer), ' ');
 
-    std::cout << "fd " << fd << std::endl;
-
-    for (auto i : splitted_buffer)
-        std::cout << i << std::endl;
-
-    std::cout << std::endl << std::endl << std::endl;
-
+    if (splitted_buffer[0] == "signin")
+    {
+        signin(fd, splitted_buffer);
+    }
+    else
+        std::cout << "Command not found" << std::endl;
 }
 
 
