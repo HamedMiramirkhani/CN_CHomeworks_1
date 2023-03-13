@@ -6,7 +6,7 @@ CmdHandler::CmdHandler()
 
 }
 
-CmdHandler::Fd_id::Fd_id(void) 
+CmdHandler::FdID::FdID(void) 
 {
 
 }
@@ -41,10 +41,10 @@ void CmdHandler::runCommand(int fd, char* read_buffer)
 
 bool CmdHandler::Fd_id::remove(int fd)
 {
-    auto result_find = map_fd_id.find(fd);
-    if (result_find != map_fd_id.end())
+    auto resultFind = mapFdID.find(fd);
+    if (resultFind != mapFdID.end())
     {
-        map_fd_id.erase(result_find);
+        mapFdID.erase(resultFind);
         return true;
     }
     else
@@ -53,17 +53,17 @@ bool CmdHandler::Fd_id::remove(int fd)
 
 int CmdHandler::Fd_id::get(int fd)
 {
-    auto result_find = map_fd_id.find(fd);
-    if (result_find != map_fd_id.end())
-        return result_find->second;
+    auto resultFind = mapFdID.find(fd);
+    if (resultFind != mapFdID.end())
+        return resultFind->second;
     else
         return ERROR;
 }
 
 bool CmdHandler::Fd_id::add(int fd, int id)
 {
-    auto result_insert = map_fd_id.insert({fd, id});
-    if (result_insert.second)
+    auto resultInsert = mapFdID.insert({fd, id});
+    if (resultInsert.second)
         return true;
     else
         return false;

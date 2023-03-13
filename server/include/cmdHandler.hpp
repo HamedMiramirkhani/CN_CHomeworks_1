@@ -8,23 +8,23 @@ class CmdHandler
 {
 public:
     CmdHandler();
-    void runCommand(int fd, char* read_buffer);
+    void runCommand(int fd, char* readBuffer);
 
 private:
     std::vector<std::string> splitString(const std::string& s, char delimiter);
 
-    void signin(int fd, std::vector<std::string> splitted_buffer);
+    void signin(int fd, std::vector<std::string> splittedBuffer);
 
-    class Fd_id
+    class FdID
     {
     public:
-        Fd_id(void);
+        FdID(void);
         bool add(int fd, int id);
         int get(int fd);
         bool remove(int fd);
     
     private:
-        std::map<int, int> map_fd_id;
+        std::map<int, int> mapFdID;
     };
 
 };
