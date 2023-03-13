@@ -24,6 +24,7 @@ private:
     Date CurrentDate;
 
     void setServerDate(void);
+    void handleConnection(int fd_socket);
 };
 
 #endif

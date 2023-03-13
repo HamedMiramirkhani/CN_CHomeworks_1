@@ -36,14 +36,6 @@ int setupServer(int port,const std::string& hostName) {
     return server_fd;
 }
 
-void* handleConnection() {
-    //using cmdHandler check connection between client & server
-    CmdHandler* commandHandler = new CmdHandler();
-
-    while (true) {
-        //get commands from channels and call commandHandler->runCommand()
-    }
-}
 
 
 
@@ -65,52 +57,61 @@ void Server::setServerDate(void)
     }
 }
 
-
-void Server::run() {
-    int fd_socket = setupServer(commandChannelPort, hostName);
+void Server::handleConnection(int fd_socket)
+{
+    CmdHandler* commandHandler = new CmdHandler();
 
     fd_set master_set, working_set;
     FD_ZERO(&master_set);
     FD_ZERO(&working_set);
     FD_SET(fd_socket, &master_set);
-    int max_fd = fd_socket;
+
     int return_select;
-    
+    int max_fd = fd_socket;
+
     char read_buffer[1024];
     memset(read_buffer, 0, sizeof(read_buffer));
-
     char write_buffer[1024];
     memset(write_buffer, 0, sizeof(write_buffer));
 
-    setServerDate();
-
-    while(true) {
+    while(true)
+    {
         working_set = master_set;       
         return_select = select(max_fd + 1, &working_set, NULL, NULL, NULL);
-        if (return_select < 0) {
+        if (return_select < 0)
+        {
             std::cerr << "Error in select" << std::endl;
             exit(EXIT_FAILURE);
         }
 
-        for (int i = 0; i <= max_fd; i++) {
-
-            ///check this next time 
-            if (FD_ISSET(i, &working_set)) {
-                if (i == fd_socket) {
+        for (int i = 0; i <= max_fd; i++)
+        { 
+            if (FD_ISSET(i, &working_set))
+            {
+                if (i == fd_socket)
+                {
                     int new_socket = accept(fd_socket, NULL, NULL);
                     FD_SET(new_socket, &master_set);
-                    if (new_socket > max_fd) {
+                    if (new_socket > max_fd)
+                    {
                         max_fd = new_socket;
                     }
                 }
-                else {
+                else
+                {
                     int EOF_recv = recv(i, read_buffer, sizeof(read_buffer), 0);
-                    if (EOF_recv == 0) { // client disconnected
+                    if (EOF_recv == 0)
+                    { // client disconnected
                         std::cout << "Client " << i << " disconnected" << std::endl;
                         close(i);
                         FD_CLR(i, &master_set);
                     }
-                    else {
+                    else
+                    {
+                        //get commands from channels and call commandHandler->runCommand()
+
+
+                        // We have data from client i
                         // print client i sent message
                         std::cout << "Client " << i << " sent message: ";
                         std::cout << read_buffer << std::endl; 
@@ -123,7 +124,15 @@ void Server::run() {
                     }
                 }
             }
-            ///check this next time 
         }
     }
+}
+
+void Server::run()
+{
+    int fd_socket = setupServer(commandChannelPort, hostName);
+
+    setServerDate();
+
+    handleConnection(fd_socket);
 }
