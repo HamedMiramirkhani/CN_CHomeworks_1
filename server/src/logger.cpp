@@ -1,5 +1,4 @@
 #include "logger.hpp"
-#include "consts.hpp"
 
 Logger::Logger() { fileName = LOGGER_FILE_NAME; }
 

@@ -1,4 +1,4 @@
-#include "exception.hpp"
+#include "error.hpp"
 
 std::string Exception::show()
 {

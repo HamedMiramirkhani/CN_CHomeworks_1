@@ -1,16 +1,6 @@
 #ifndef __CMD_HANDLER_H__
 #define __CMD_HANDLER_H__
-
-#include <string>
-#include <sstream>
-#include <map>
-#include <iostream>
-#include <vector>
-#include <sys/select.h>
-#include <sys/socket.h>
-#include <unistd.h>
-#include <arpa/inet.h>
-#include <netinet/in.h>
+#include "consts.hpp"
 
 const int ERROR = -1;
 

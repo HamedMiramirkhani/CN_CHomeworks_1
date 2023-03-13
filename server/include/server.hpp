@@ -1,9 +1,7 @@
 #ifndef __SERVER_H__
 #define __SERVER_H__
 
-#include <vector>
 #include "jsonReader.hpp"
-#include <string>
 #include "date.hpp"
 #include "logger.hpp"
 #include "termcolor.hpp"

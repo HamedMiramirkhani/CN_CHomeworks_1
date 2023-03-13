@@ -1,9 +1,8 @@
 #ifndef __ROOM_H__
 #define __ROOM_H__
 
-#include <string>
-#include <vector>
-#include <user.hpp>
+#include "user.hpp"
+#include "consts.hpp"
 
 class Room
 {

@@ -24,6 +24,9 @@
 #include <chrono>
 #include <ctime>  
 #include <sys/select.h>
+#include <sstream>
+#include <regex>
+#include <map>
 
 const std::string LOGGER_FILE_NAME = "log.txt";
 const std::string CONFIG_FILE_NAME = "config.txt";

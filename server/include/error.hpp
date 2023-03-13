@@ -1,13 +1,11 @@
 #ifndef __EXCEPTION_H__
 #define __EXCEPTION_H__
-
-#include <string>
+#include "consts.hpp"
 
 class Exception
 {
 public:
     std::string show();
-
 private:
     const std::string msg;
 };

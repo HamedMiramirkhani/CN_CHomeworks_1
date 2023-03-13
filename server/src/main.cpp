@@ -1,5 +1,4 @@
 #include "server.hpp"
-#include "consts.hpp"
 
 int main(int argc, char const *argv[])
 {

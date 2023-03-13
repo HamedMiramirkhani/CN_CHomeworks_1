@@ -1,6 +1,5 @@
 #include "server.hpp"
 #include "cmdHandler.hpp"
-#include "consts.hpp"
 
 Server::Server(
 const std::string& configPath, 
