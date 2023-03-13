@@ -18,28 +18,22 @@ const std::string& userInfoPath)
     allRooms = jsonReader.getRooms();
 }
 
-struct sockaddr_in initialSocket(const int port,const std::string& hostName) {
+int setupServer(int port, const std::string& hostName) 
+{
+    int opt = 1;
+    int serverFd = socket(AF_INET, SOCK_STREAM, 0);
+    setsockopt(serverFd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
+    
     struct sockaddr_in address;
     address.sin_family = AF_INET;
     address.sin_addr.s_addr = inet_addr(hostName.c_str());
     address.sin_port = htons(port);
-    return address;
-}
 
-int setupServer(int port,const std::string& hostName) {
-    struct sockaddr_in address = initialSocket(port, hostName);
-    int serverFd = socket(AF_INET, SOCK_STREAM, 0);
-    int opt = 1;
-
-    setsockopt(serverFd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
     bind(serverFd, (struct sockaddr *)&address, sizeof(address));
-    listen(serverFd, 8);
+    listen(serverFd, 4);
 
     return serverFd;
 }
-
-
-
 
 void Server::setServerDate(void)
 {
