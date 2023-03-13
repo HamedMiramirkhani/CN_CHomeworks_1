@@ -11,9 +11,27 @@ CmdHandler::Fd_id::Fd_id(void)
 
 }
 
+std::vector<std::string> CmdHandler::splitString(const std::string& s, char delimiter) {
+    std::vector<std::string> tokens;
+    std::string token;
+    std::istringstream tokenStream(s);
+    while (std::getline(tokenStream, token, delimiter)) {
+        tokens.push_back(token);
+    }
+    return tokens;
+}
+
 void CmdHandler::runCommand(int fd, char* read_buffer)
-{
-    std::cout << "fd: " << fd << "\n" << "read_buffer: " << read_buffer << std::endl;
+{    
+    std::vector<std::string> splitted_buffer = splitString(std::string(read_buffer), ' ');
+
+    std::cout << "fd " << fd << std::endl;
+
+    for (auto i : splitted_buffer)
+        std::cout << i << std::endl;
+
+    std::cout << std::endl << std::endl << std::endl;
+
 }
 
 

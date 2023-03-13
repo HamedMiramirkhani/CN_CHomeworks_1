@@ -2,8 +2,10 @@
 #define __CMD_HANDLER_H__
 
 #include <string>
+#include <sstream>
 #include <map>
 #include <iostream>
+#include <vector>
 #include <sys/select.h>
 #include <sys/socket.h>
 #include <unistd.h>
@@ -19,7 +21,7 @@ public:
     void runCommand(int fd, char* read_buffer);
 
 private:
-
+    std::vector<std::string> splitString(const std::string& s, char delimiter);
 
     class Fd_id
     {
