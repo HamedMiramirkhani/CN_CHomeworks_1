@@ -52,7 +52,7 @@ $(BUILD_DIR)/main.o: $(mainSensitivityList)
 	$(CC) $(CFLAGS) -c $(SRC_DIR)/main.cpp -o $(BUILD_DIR)/main.o
 
 $(BUILD_DIR)/server.o: $(serverSensitivityList)
-	$(CC) $(CFLAGS) -c $(SRC_DIR)/Server.cpp -o $(BUILD_DIR)/server.o
+	$(CC) $(CFLAGS) -c $(SRC_DIR)/server.cpp -o $(BUILD_DIR)/server.o
 
 $(BUILD_DIR)/cmdHandler.o: $(cmdHandlerSensitivityList)
 	$(CC) $(CFLAGS) -c $(SRC_DIR)/cmdHandler.cpp -o $(BUILD_DIR)/cmdHandler.o

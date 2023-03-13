@@ -12,5 +12,5 @@ Room::Room(
         status(status), 
         price(price),
         maxCapacity(maxCapacity),
-        capacityusers(capacityusers),
-        room_users(room_users) {}
+        capacityUsers(capacityUsers),
+        roomUsers(roomUsers) {}

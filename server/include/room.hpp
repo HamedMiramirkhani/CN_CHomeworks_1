@@ -22,8 +22,8 @@ public:
     bool status;
     int price;
     int maxCapacity;
-    int capacityusers;
-    std::vector<User*> room_users;
+    int capacityUsers;
+    std::vector<User*> roomUsers;
 };
 
 #endif
