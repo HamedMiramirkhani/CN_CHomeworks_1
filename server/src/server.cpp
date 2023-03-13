@@ -88,7 +88,7 @@ void Server::handleConnection(int fd_socket)
         { 
             if (FD_ISSET(i, &working_set))
             {
-                if (i == fd_socket)
+                if (i == fd_socket) // new connection
                 {
                     int new_socket = accept(fd_socket, NULL, NULL);
                     FD_SET(new_socket, &master_set);
@@ -97,7 +97,7 @@ void Server::handleConnection(int fd_socket)
                         max_fd = new_socket;
                     }
                 }
-                else
+                else // existing connection
                 {
                     int EOF_recv = recv(i, read_buffer, sizeof(read_buffer), 0);
                     if (EOF_recv == 0)
@@ -108,21 +108,19 @@ void Server::handleConnection(int fd_socket)
                     }
                     else
                     {
-                        //get commands from channels and call commandHandler->runCommand()
+                        commandHandler->runCommand(i, read_buffer);
 
-
-                        // We have data from client i
-                        // print client i sent message
-                        std::cout << "Client " << i << " sent message: ";
-                        std::cout << read_buffer << std::endl; 
-                        memset(read_buffer, 0, sizeof(read_buffer));
-                        // send message to client i
+                        // send message to client
                         std::string message = "Hello Client " + std::to_string(i);
                         strcpy(write_buffer, message.c_str());
                         send(i, write_buffer, sizeof(write_buffer), 0);
+
+                        // clear buffers
                         memset(write_buffer, 0, sizeof(write_buffer));
+                        memset(read_buffer, 0, sizeof(read_buffer));
                     }
                 }
+                break;
             }
         }
     }
