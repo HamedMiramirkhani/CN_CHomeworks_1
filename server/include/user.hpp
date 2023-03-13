@@ -20,6 +20,7 @@ public:
         const int& userRoomNum
     );
 
+private:
     int id;
     std::string username;
     std::string password;
