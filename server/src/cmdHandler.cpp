@@ -1,5 +1,4 @@
 #include "cmdHandler.hpp"
-#include "consts.hpp"
 
 CmdHandler::CmdHandler() 
 {
@@ -39,7 +38,7 @@ void CmdHandler::runCommand(int fd, char* read_buffer)
 }
 
 
-bool CmdHandler::Fd_id::remove(int fd)
+bool CmdHandler::FdID::remove(int fd)
 {
     auto resultFind = mapFdID.find(fd);
     if (resultFind != mapFdID.end())
@@ -51,7 +50,7 @@ bool CmdHandler::Fd_id::remove(int fd)
         return false;
 }
 
-int CmdHandler::Fd_id::get(int fd)
+int CmdHandler::FdID::get(int fd)
 {
     auto resultFind = mapFdID.find(fd);
     if (resultFind != mapFdID.end())
@@ -60,7 +59,7 @@ int CmdHandler::Fd_id::get(int fd)
         return ERROR;
 }
 
-bool CmdHandler::Fd_id::add(int fd, int id)
+bool CmdHandler::FdID::add(int fd, int id)
 {
     auto resultInsert = mapFdID.insert({fd, id});
     if (resultInsert.second)
