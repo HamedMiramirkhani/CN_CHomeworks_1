@@ -1,11 +1,11 @@
 #include "logger.hpp"
 
-Logger::Logger()
-{
-    outFile.open("log.txt", std::ios::app);
-}
+Logger::Logger(){ fileName = "log.txt"; }
 
-void Logger::writeMessage(std::string message)
+void Logger::writeMsg(std::string message)
 {
-    outFile << message << "\n";
+    std::ofstream lout;
+    lout.open(fileName, std::ios::app);
+    lout << message << "\n";
+    lout.close();
 }
