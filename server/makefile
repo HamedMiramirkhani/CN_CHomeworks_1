@@ -13,9 +13,9 @@ OBJECTS = \
 	$(BUILD_DIR)/room.o \
 	$(BUILD_DIR)/user.o \
 	$(BUILD_DIR)/date.o \
-	$(BUILD_DIR)/logger.cpp \
-	$(BUILD_DIR)/exception.cpp \
-	$(BUILD_DIR)/response.cpp
+	$(BUILD_DIR)/logger.o \
+	$(BUILD_DIR)/exception.o \
+	$(BUILD_DIR)/response.o
 
 userSensitivityList = \
 	$(SRC_DIR)/user.cpp \
@@ -90,6 +90,9 @@ $(BUILD_DIR)/date.o: $(dateSensitivityList)
 
 $(BUILD_DIR)/exception.o: $(exceptionSensitivityList)
 	$(CC) $(CFLAGS) -c $(SRC_DIR)/exception.cpp -o $(BUILD_DIR)/exception.o
+
+$(BUILD_DIR)/response.o: $(responseSensitivityList)
+	$(CC) $(CFLAGS) -c $(SRC_DIR)/response.cpp -o $(BUILD_DIR)/response.o
 
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
