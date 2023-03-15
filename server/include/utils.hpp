@@ -8,7 +8,7 @@
 #include <iostream>
 
 namespace Utils {
-    std::string parse_line(std::string str, char del);
+    std::string splitLine(std::string str, char del);
     std::vector<std::string> makeLineList(std::string line, char divider);
     std::string getParam(std::string line, std::string key, bool required=true);
 }
