@@ -1,35 +1,47 @@
-CC = g++
-BUILD_DIR = build
-SRC_DIR = src
-INCLUDE_DIR = include
-CFLAGS = -std=c++11 -I$(INCLUDE_DIR)
+PROJECT_NAME := client
+CC        := g++
+SRCDIR    := src
+HEADERDIR := inc
+BUILDDIR  := build
+BINDIR    := bin
+TARGET    := $(BINDIR)/$(PROJECT_NAME)
+SOURCES   := $(shell find $(SRCDIR) -type f -name *.c*)
+HEDEARS   := $(shell find $(HEADERDIR) -type f -name *.h*)
+OBJECTS   := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(addsuffix .o,$(basename $(SOURCES))))
+DEPS      := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(addsuffix .d,$(basename $(SOURCES))))
+CFLAGS    :=
+LIB       :=
+INC       := -I inc -I src
 
-EXECUTABLE_FILE = client.out
-OBJECTS = \
-	$(BUILD_DIR)/client.o \
-	$(BUILD_DIR)/main.o \
-	$(BUILD_DIR)/jsonReader.o
+all: debug
+debug: CFLAGS += -g
+debug: $(TARGET)
+release: $(TARGET)
+release: CFLAGS += -O3
 
-all: $(BUILD_DIR) $(EXECUTABLE_FILE)
+all: $(TARGET)
 
-
-$(EXECUTABLE_FILE): $(OBJECTS)
-	$(CC) $(CFLAGS) $(OBJECTS) -o $(EXECUTABLE_FILE)
-
-$(BUILD_DIR)/main.o: $(SRC_DIR)/main.cpp $(INCLUDE_DIR)/client.hpp
-	$(CC) $(CFLAGS) -c $(SRC_DIR)/main.cpp -o $(BUILD_DIR)/main.o
-
-
-$(BUILD_DIR)/client.o: $(SRC_DIR)/client.cpp $(INCLUDE_DIR)/client.hpp
-	$(CC) $(CFLAGS) -c $(SRC_DIR)/client.cpp -o $(BUILD_DIR)/client.o
-
-$(BUILD_DIR)/jsonReader.o: $(SRC_DIR)/jsonReader.cpp $(INCLUDE_DIR)/jsonReader.hpp
-	$(CC) $(CFLAGS) -c $(SRC_DIR)/jsonReader.cpp -o $(BUILD_DIR)/jsonReader.o
-
-$(BUILD_DIR):
-	mkdir -p $(BUILD_DIR)
-
-
-.PHONY: clean
 clean:
-	rm -rf $(BUILD_DIR) *.o *.out
+	rm $(BUILDDIR) $(BINDIR) -rf
+
+$(TARGET): $(BINDIR) $(BUILDDIR) $(OBJECTS)
+	@$(CC) $(OBJECTS) -o $(TARGET) $(LIB)
+
+$(BUILDDIR) :
+	mkdir $(BUILDDIR)
+
+$(BINDIR):
+	mkdir $(BINDIR)
+	
+$(BUILDDIR)/%.o: $(SRCDIR)/%.c*
+	@mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) $(INC) -c -o $@ $<
+	@$(CC) $(CFLAGS) $(INC) -M $< -MT $@ > $(@:.o=.td)
+	@cp $(@:.o=.td) $(@:.o=.d); 
+	@sed -e 's/#.*//' -e 's/^[^:]*: *//' -e 's/ *\\$$//' \
+	-e '/^$$/ d' -e 's/$$/ :/' < $(@:.o=.td) >> $(@:.o=.d); 
+	@rm -f $(@:.o=.td)
+
+-include $(DEPS)
+
+.PHONY: clean all
