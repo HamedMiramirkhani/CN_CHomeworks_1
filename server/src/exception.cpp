@@ -1,7 +1,7 @@
 #include "exception.hpp"
 
 std::string Exception::getError() 
-{return "";}
+{return "command is invalid";}
 
 std::string TheDesiredRoomWasNotFound::getError()
 {return std::to_string(num) + error;}
