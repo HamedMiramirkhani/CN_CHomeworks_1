@@ -10,7 +10,7 @@
 
 using namespace std;
 
-Json::Value FileHandler::get_date(Date date)
+Json::Value FileHandler::getDate(Date date)
 {
     Json::Value root;
     root["day"] = date.day;
