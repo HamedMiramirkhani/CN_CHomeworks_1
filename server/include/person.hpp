@@ -7,7 +7,12 @@
 class Person {
 public:
     Person (int id_,std::string username_, std::string password_);
-    //..
+    virtual std::unordered_map<std::string, func_ptr> getCmdList() = 0;
+    bool checkInfo(std::string username_, std::string password_);
+    virtual std::string getInfo(std::string del) = 0;
+    virtual void changeInfo(std::string newPassword,
+     std::string newPhone, std::string newAddress);
+    int getID();
 protected:
     int id;
     std::string username;
@@ -20,6 +25,12 @@ public:
     User(int id_,std::string username_, 
     std::string password_, std::string purse_,
      std::string phoneNumber_, std::string address_);
+
+    std::unordered_map<std::string, func_ptr> getCmdList();
+    std::string getInfo(std::string del);
+    void changeInfo(std::string newPassword, std::string newPhone,
+     std::string newAddress);
+
 private:
     std::string purse;
     std::string phoneNumber;
@@ -28,9 +39,10 @@ private:
 
 class Admin : public Person {
 public:
-    Admin(int id_,std::string username_, 
-    std::string password_);
-    
+    Admin(int id_,std::string username_, std::string password_);
+    std::unordered_map<std::string, func_ptr> getCmdList();
+    std::string getInfo(std::string del);
+    void changeInfo(std::string newPassword);
 };
 
 #endif
