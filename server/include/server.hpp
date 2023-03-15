@@ -1,30 +1,42 @@
-#ifndef __SERVER_H__
-#define __SERVER_H__
+#ifndef __SERVER_HPP__
+#define __SERVER_HPP__
 
-#include "jsonReader.hpp"
-#include "date.hpp"
-#include "logger.hpp"
-#include "termcolor.hpp"
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <string.h>
+#include <arpa/inet.h>
+#include <sys/time.h>
+#include <string.h> 
+#include <signal.h>
+#include <sys/ioctl.h>
+#include <stdbool.h>
+#include <unistd.h>
+#include <jsoncpp/json/json.h>
+#include "dashboard.hpp"
 
 class Server
 {
+
 public:
-    Server(const std::string& configPath,
-            const std::string& roomsPath,
-            const std::string& userInfoPath);
+    Server(Dashboard *dashboard);
+    void start();
     void run();
 
 private:
-    JsonReader jsonReader;
-    Logger serverLoger;
-    int commandChannelPort;
-    std::string hostName;
-    std::vector<User*> allUsers;
-    std::vector<Room*> allRooms; 
-    Date currentDate;
+    int serverPort;
+    std::string serverIP;
+    Dashboard *dashboard;
+    int setupServer(int port); 
+    int acceptClient(int serverFd);
 
-    void setServerDate(void);
-    void handleConnection(int fdSocket);
+    int serverFd;
+    fd_set masterSet;
+    fd_set workingSet;
+    int maxSd;
+    
 };
-
 #endif

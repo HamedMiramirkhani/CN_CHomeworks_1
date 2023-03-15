@@ -1,127 +1,89 @@
+// In the Name of God
+
 #include "server.hpp"
-#include "cmdHandler.hpp"
 
-Server::Server(
-const std::string& configPath, 
-const std::string& roomsPath,
-const std::string& userInfoPath) 
-:jsonReader(JsonReader(configPath, roomsPath, userInfoPath))
+#include <iostream>
+
+using namespace std;
+
+Server::Server(Dashboard *dashboard)
+    :
+    dashboard(dashboard),
+    server_fd(NOT_CONNECTED),
+    max_sd(0)
 {
-    hostName = jsonReader.getHostName();
-    commandChannelPort = jsonReader.getCommandChannelPort();
-    allUsers = jsonReader.getUsers();
-    allRooms = jsonReader.getRooms();
+    serverPort = 8181;
+    serverIP = "127.0.0.1";
 }
 
-int setupServer(int port, const std::string& hostName) 
+void Server::start() 
 {
-    int opt = 1;
-    int serverFd = socket(AF_INET, SOCK_STREAM, 0);
-    setsockopt(serverFd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
-    
-    struct sockaddr_in address;
-    address.sin_family = AF_INET;
-    address.sin_addr.s_addr = inet_addr(hostName.c_str());
-    address.sin_port = htons(port);
-
-    bind(serverFd, (struct sockaddr *)&address, sizeof(address));
-    listen(serverFd, 4);
-
-    return serverFd;
+    serverFd = setupServer(serverPort);
+    maxSd = serverFd;
+    FD_ZERO(&master_set);
+    FD_SET(server_fd, &master_set);
+    FD_SET(STD_IN, &master_set);
+    run();
 }
 
-void Server::setServerDate(void)
+void Server::run()
 {
-    std::string InDate;
-    while (true)
+    while (1) 
     {
-        std::cout << "setTime ";
-        std::cin >> InDate;
-        if (currentDate.setDate(InDate))
+        working_set = master_set;
+        select(max_sd + 1, &working_set, NULL, NULL, NULL);
+
+        for(int i = 0; i <= max_sd; i++) 
         {
-            break;
-        }
-        else
-        {
-            std::cout << termcolor::red << "Error 401: Invalid value!" << termcolor::reset << std::endl;
-        }
-    }
-}
-
-void Server::handleConnection(int fdSocket)
-{
-    CmdHandler* commandHandler = new CmdHandler();
-
-    fd_set masterSet, workingSet;
-    FD_ZERO(&masterSet);
-    FD_ZERO(&workingSet);
-    FD_SET(fdSocket, &masterSet);
-
-    int returnSelect;
-    int maxFd = fdSocket;
-
-    char readBuffer[1024];
-    memset(readBuffer, 0, sizeof(readBuffer));
-    char writeBuffer[1024];
-    memset(writeBuffer, 0, sizeof(writeBuffer));
-
-    while(true)
-    {
-        workingSet = masterSet;       
-        returnSelect = select(maxFd + 1, &workingSet, NULL, NULL, NULL);
-        if (returnSelect < 0)
-        {
-            std::cerr << "Error in select" << std::endl;
-            exit(EXIT_FAILURE);
-        }
-
-        for (int i = 0; i <= maxFd; i++)
-        { 
-            if (FD_ISSET(i, &workingSet))
-            {
-                if (i == fdSocket) // new connection
-                {
-                    int newSocket = accept(fdSocket, NULL, NULL);
-                    FD_SET(newSocket, &masterSet);
-                    if (newSocket > maxFd)
-                    {
-                        maxFd = newSocket;
-                    }
+            if (FD_ISSET(i, &working_set)) 
+            {    
+                if (i == server_fd) // new clinet
+                {  
+                    int new_client_fd = acceptClient(server_fd);
+                    FD_SET(new_client_fd, &master_set);
+                    if (new_client_fd > max_sd)
+                        max_sd = new_client_fd;
+                    //dashboard->add_new_client(new_client_fd);
                 }
-                else // existing connection
+
+                else if (i == STD_IN) //input buffer
                 {
-                    int EOFrecv = recv(i, readBuffer, sizeof(readBuffer), 0);
-                    if (EOFrecv == 0)
-                    { // client disconnected
-                        std::cout << "Client " << i << " disconnected" << std::endl;
-                        close(i);
-                        FD_CLR(i, &masterSet);
-                    }
-                    else
-                    {
-                        commandHandler->runCommand(i, readBuffer);
-
-                        // send message to client
-                        std::string message = "Hello Client " + std::to_string(i);
-                        strcpy(writeBuffer, message.c_str());
-                        send(i, writeBuffer, sizeof(writeBuffer), 0);
-
-                        // clear buffers
-                        memset(writeBuffer, 0, sizeof(writeBuffer));
-                        memset(readBuffer, 0, sizeof(readBuffer));
-                    }
+                    char command[MAX_STRING_SIZE] = {0};
+                    int last_char = read(STD_IN, command, MAX_STRING_SIZE);
                 }
-                break;
+                
+                else // client sending msg
+                { 
+
+                    
+                }
             }
         }
     }
 }
 
-void Server::run()
+int Server::setupServer(int port)
 {
-    int fdSocket = setupServer(commandChannelPort, hostName);
+    struct sockaddr_in address;
+    int server_fd;
+    server_fd = socket(AF_INET, SOCK_STREAM, 0);
+    int opt = 1;
+    setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
+    
+    address.sin_family = AF_INET;
+    address.sin_addr.s_addr = inet_addr(server_ip.c_str());
+    address.sin_port = htons(port);
 
-    setServerDate();
+    bind(server_fd, (struct sockaddr *)&address, sizeof(address));
+    listen(server_fd, 4);
+    return server_fd;
+}
 
-    handleConnection(fdSocket);
+int Server::acceptClient(int server_fd)
+{
+    int client_fd;
+    struct sockaddr_in clientAddress;
+    int addressLen = sizeof(clientAddress);
+    clientFd = accept(serverFd, (struct sockaddr *)&clientAddress, (socklen_t*) &addressLen);
+    return clientFd;
 }
