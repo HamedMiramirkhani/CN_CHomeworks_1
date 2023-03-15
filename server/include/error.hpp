@@ -1,5 +1,5 @@
-#ifndef __EXCEPTION_H__
-#define __EXCEPTION_H__
+#ifndef __ERROR_HPP__
+#define __ERROR_HPP__
 #include "consts.hpp"
 
 #include <string>
@@ -7,11 +7,11 @@
 class Error
 {
 public:
-    Error(int error_number , std::string extra_info = "");
-    std::string what(bool more_info = false);
+    Error(int errorNumber , std::string extraInfo = "");
+    std::string what(bool moreInfo = false);
 private:
-    int error_number;
-    std::string extra_info;
+    int errorNumber;
+    std::string extraInfo;
 };
 
 #endif
