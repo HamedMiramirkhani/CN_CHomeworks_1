@@ -3,7 +3,7 @@
 int main(int argc, char const *argv[])
 {
     Client client = Client();
-    client.run();
+    client.start();
     
     return 0;
 }

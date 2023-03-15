@@ -1,4 +1,4 @@
-#include "../include/jsonReader.hpp"
+#include "jsonReader.hpp"
 
 JsonReader::JsonReader(const std::string& config_path)
 {
