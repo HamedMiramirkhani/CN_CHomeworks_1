@@ -1,12 +1,12 @@
 # Computer Networks - CA 1
 
-- [Computer Networks - CA 1](#Computer-Networks---CA-1)
-    - [Introduction](#Introduction)
-    - [Problem Statement](#Problem-Statement)
-        - [Server](#Server)
-        - [Client](#Client)
-            - [1.Admin](#1.Admin)
-            - [2.User](#2.User)
+- [Computer Networks - CA 1](#computer-networks---ca-1)
+    - [Introduction](#introduction)
+    - [Problem Statement](#problem-statement)
+        - [Server](#server)
+        - [Client](#client)
+            - [1.Admin](#1admin)
+            - [2.User](#2user)
 
 
 
