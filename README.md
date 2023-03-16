@@ -59,5 +59,5 @@ then run the client program by running this command:
 ```
 
 ## Contributors
-- [Mostafa Ebrahim](https://github.com/Ebrahimi-Mostafa) - 810199575
+- [Mostafa Ebrahimi](https://github.com/Ebrahimi-Mostafa) - 810199575
 - [Hamed Miramirkhani](https://github.com/HamedMiramirkhani) - 810199500
