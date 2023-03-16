@@ -5,6 +5,8 @@
     - [Problem Statement](#Problem-Statement)
         - [Server](#Server)
         - [Client](#Client)
+            - [Admin](#Admin)
+            - [User](#User)
 
 
 
@@ -20,3 +22,4 @@ The server is a hotel reservation system that maintains a list of rooms and user
 Moreover, the server is capable of handling diverse types of requests and responding with relevant data. To ensure the reliability and stability of the system, robust error handling mechanisms will be implemented.
 
 ### Client
+We have two types of clients, the admin and the user. They have some common functionalities, such as login and logout, but they also have some unique functionalities, such as admin can view all user information and user can reserve a room.
