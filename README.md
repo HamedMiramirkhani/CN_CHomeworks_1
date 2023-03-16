@@ -7,6 +7,9 @@
         - [Client](#client)
             - [1.Admin](#1admin)
             - [2.User](#2user)
+    - [How to run](#how-to-run)
+        - [Server](#server-1)
+        - [Client](#client-1)
 
 
 
@@ -29,3 +32,28 @@ The administrator can log in to the system and view all user information, except
 
 #### 2.User
 Users can log in to the system to view their information and all available rooms. They can reserve a room, cancel a reservation, and leave a room before the check-out date.
+
+## How to run
+We use makefile to compile the program. There are two makefiles, one for server and one for client. The makefile for server is in the server folder and the makefile for client is in the client folder.
+
+### Server
+Compile the server program by running theses commands in the terminal:
+```bash
+cd ./server
+make
+```
+then run the server program by running this command:
+```bash
+./server
+```
+
+### Client
+Compile the client program by running theses commands in the terminal:
+```bash
+cd ./client
+make
+```
+then run the client program by running this command:
+```bash
+./client
+```
