@@ -22,7 +22,7 @@ The server is a hotel reservation system that maintains a list of rooms and user
 Moreover, the server is capable of handling diverse types of requests and responding with relevant data. To ensure the reliability and stability of the system, robust error handling mechanisms will be implemented.
 
 ### Client
-We have two types of clients, the admin and the user. They have some common functionalities, such as login and logout, but they also have some unique functionalities, such as admin can view all user information and user can reserve a room.
+We have two types of clients, the admin and the user. They have some common functionalities, such as login and logout, change his/her information, but they also have some unique functionalities, such as admin can view all user information and user can reserve a room.
 
 #### Admin
 The administrator can log in to the system and view all user information, except for their passwords. They also have the ability to advance the system's date, which can impact room availability and booking status. Furthermore, the administrator is empowered to remove users from rooms as needed, and they can add, remove, or modify room prices as required.
