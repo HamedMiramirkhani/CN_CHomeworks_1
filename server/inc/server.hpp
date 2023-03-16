@@ -1,5 +1,4 @@
-#ifndef __SERVER_HPP__
-#define __SERVER_HPP__
+#pragma once
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -16,6 +15,8 @@
 #include <stdbool.h>
 #include <unistd.h>
 #include <jsoncpp/json/json.h>
+
+#include "manual.hpp"
 #include "dashboard.hpp"
 
 class Server
@@ -23,20 +24,20 @@ class Server
 
 public:
     Server(Dashboard *dashboard);
-    void start();
-    void run();
+    void startServer();
+    void set_fd_set();
+    void runServer();
 
 private:
     int serverPort;
-    std::string serverIP;
+    std::string serverIp;
     Dashboard *dashboard;
     int setupServer(int port); 
-    int acceptClient(int serverFd);
+    int accept_client(int serverFd);
 
     int serverFd;
-    fd_set masterSet;
-    fd_set workingSet;
-    int maxSd;
+    fd_set master_set;
+    fd_set working_set;
+    int max_sd;
     
 };
-#endif

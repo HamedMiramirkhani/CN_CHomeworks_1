@@ -1,6 +1,7 @@
 #pragma once
 
 class Error;
+class FileHandler;
 class Dashboard;
 class Person;
 class User;
@@ -9,5 +10,6 @@ class Room;
 class Server;
 class Rent;
 class DateConfig;
-//https://stackoverflow.com/questions/4295432/typedef-function-pointer
-typedef void (Dashboard::*funcPtr)();
+
+typedef void (Dashboard::*func_ptr)();
+typedef std::unordered_map dict;

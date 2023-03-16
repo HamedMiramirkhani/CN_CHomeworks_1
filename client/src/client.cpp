@@ -55,7 +55,7 @@ void Client::sendRequest()
                     printf("server said: %s\n",respone);
                 }
                 else
-                    printf("\n%s***\tproblem accurd :cant connect to server\t***%s\n");
+                    printf("\n***\tproblem accurd :cant connect to server\t***\n");
             }
         }
     }

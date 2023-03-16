@@ -21,7 +21,7 @@ struct Date
     int year;
 };
 
-struct AdminInfo
+struct AdminUserInfo
 {
     int id;
     std::string username;
@@ -29,7 +29,7 @@ struct AdminInfo
     bool admin;
 };
 
-struct UserInfo
+struct SimpleUserInfo
 {
     int id;
     std::string username;
@@ -38,9 +38,14 @@ struct UserInfo
     int money;
     std::string phoneNumber;
     std::string address;
-    int numBeds;
-    Date checkinDate;
-    Date checkoutDate;
+};
+
+struct TravelerInfo
+{
+    int id;
+    int number_of_beds;
+    Date checkin_date;
+    Date checkout_date;
 };
 
 struct RoomInfo
@@ -50,7 +55,7 @@ struct RoomInfo
     int price;
     int maxCapacity;
     int capacity;
-    std::vector <UserInfo> roomResidents;
+    std::vector <TravelerInfo> room_residents;
 };
 
 struct Info
@@ -61,6 +66,7 @@ struct Info
         {
             {101, "DESIRED_ROOM_WAS_NOT_FOUND"},
             {102, "YOUR_RESERVATION_WAS_NOT_FOUND"},
+            {103, "YOU_MUST_LEAVE_NOT_CANCEL"},
             {104, "SUCCESSFULLY_ADDED"},
             {105, "SUCCESSFULLY_MODIFIED"},
             {106, "SUCCESSFULLY_DELETED"},
@@ -68,6 +74,7 @@ struct Info
             {109, "THE_ROOM_CAPACITY_IS_FULL"},
             {110, "SUCCESSFULLY_DONE"},
             {111, "THIS_ROOM_ALREADY_EXISTS"},
+            {112, "YOU_ARE_NOT_IN_ROOM_YET"},
             {201, "USER_LOGED_OUT_SUCCESSFULLY"},
             {230, "USER_LOGED_IN"},
             {231, "USER_SUCCESSFULLY_SIGNED_UP"},
@@ -94,4 +101,10 @@ namespace RoomStatus
         "EMPTY",
         "FULL"
     };
+}
+
+namespace EmptyFilterStatus 
+{
+    const int ENABLE = 1;
+    const int DISABLE = 0;
 }
