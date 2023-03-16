@@ -26,3 +26,6 @@ We have two types of clients, the admin and the user. They have some common func
 
 #### Admin
 The administrator can log in to the system and view all user information, except for their passwords. They also have the ability to advance the system's date, which can impact room availability and booking status. Furthermore, the administrator is empowered to remove users from rooms as needed, and they can add, remove, or modify room prices as required.
+
+#### User
+Users can log in to the system to view their information and all available rooms. They can reserve a room, cancel a reservation, and leave a room before the check-out date.
