@@ -12,14 +12,14 @@
 class FileHandler
 {
 public:
-    // bool writeInSimpleUserFile(std::vector <SimpleUserInfo> info, std::string path = ..);
-    // std::vector <SimpleUserInfo> readFromSimpleUserFile(std::string path = ...);
+    bool writeInSimpleUserFile(std::vector <SimpleUserInfo> info, std::string path = "");
+    std::vector <SimpleUserInfo> readFromSimpleUserFile(std::string path = "");
 
-    // bool writeInAdminUserFile(std::vector <AdminUserInfo> info, std::string path = ..);
-    // std::vector <AdminUserInfo> readFromAdminUserFile(std::string path = ..);
+    bool writeInAdminUserFile(std::vector <AdminUserInfo> info, std::string path = "");
+    std::vector <AdminUserInfo> readFromAdminUserFile(std::string path = "");
 
-    // bool writeInRoomFile(std::vector <RoomInfo> info, std::string path = ..);
-    // std::vector <RoomInfo> readFromRoomFile(std::string path = ..);
+    bool writeInRoomFile(std::vector <RoomInfo> info, std::string path = "");
+    std::vector <RoomInfo> readFromRoomFile(std::string path = "");
 
 private:
     Json::Value getTravelerInfo(TravelerInfo traveler);

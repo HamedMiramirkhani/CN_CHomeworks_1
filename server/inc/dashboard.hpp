@@ -8,7 +8,7 @@
 #include <sys/socket.h>
 #include <memory>
 
-#include "class_names.hpp"
+#include "classNames.hpp"
 
 class Dashboard
 {

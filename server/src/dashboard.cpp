@@ -4,7 +4,7 @@
 #include "manual.hpp"
 #include "error.hpp"
 #include "filehandler.hpp"
-#include "Utils.hpp"
+#include "utils.hpp"
 #include "person.hpp"
 #include "room.hpp"
 

@@ -12,4 +12,4 @@ class Rent;
 class DateConfig;
 
 typedef void (Dashboard::*func_ptr)();
-typedef std::unordered_map dict;
+// typedef std::unordered_map dict;

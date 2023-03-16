@@ -105,5 +105,3 @@ int Server::accept_client(int serverFd)
     client_fd = accept(serverFd, (struct sockaddr *)&client_address, (socklen_t*) &address_len);
     return client_fd;
 }
-
-printf("***\t could not send to client fd = %d\t***\n", i);

@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "Utils.hpp"
+#include "utils.hpp"
 #include "error.hpp"
 #include "room.hpp"
 
