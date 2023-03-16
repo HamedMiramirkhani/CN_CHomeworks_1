@@ -5,8 +5,8 @@
     - [Problem Statement](#Problem-Statement)
         - [Server](#Server)
         - [Client](#Client)
-            - [Admin](#Admin)
-            - [User](#User)
+            - [1.Admin](#1.Admin)
+            - [2.User](#2.User)
 
 
 
@@ -24,8 +24,8 @@ Moreover, the server is capable of handling diverse types of requests and respon
 ### Client
 We have two types of clients, the admin and the user. They have some common functionalities, such as login and logout, change his/her information, but they also have some unique functionalities, such as admin can view all user information and user can reserve a room.
 
-#### Admin
+#### 1.Admin
 The administrator can log in to the system and view all user information, except for their passwords. They also have the ability to advance the system's date, which can impact room availability and booking status. Furthermore, the administrator is empowered to remove users from rooms as needed, and they can add, remove, or modify room prices as required.
 
-#### User
+#### 2.User
 Users can log in to the system to view their information and all available rooms. They can reserve a room, cancel a reservation, and leave a room before the check-out date.
