@@ -10,7 +10,7 @@
     - [How to run](#how-to-run)
         - [Server](#server-1)
         - [Client](#client-1)
-
+    - [Contributors](#contributors)
 
 
 ## Introduction
@@ -57,3 +57,7 @@ then run the client program by running this command:
 ```bash
 ./client
 ```
+
+## Contributors
+- [Mostafa Ebrahim](https://github.com/Ebrahimi-Mostafa) - 810199575
+- [Hamed Miramirkhani](https://github.com/HamedMiramirkhani) - 810199500
