@@ -1,36 +1,62 @@
-#include "client.hpp"
-#include "userManual.hpp"
+#include <iostream>
 
-Client::Client():serverFd(NOT_CONNECTED),max_sd(0)
-{}
+#include "client.hpp"
+#include "errorCMD.hpp"
+#include <fstream>
+
+#if __has_include(<jsoncpp/json/json.h>)
+# include <jsoncpp/json/json.h>
+#elif __has_include(<json/json.h>)
+#include <json/json.h>
+#endif
+
+using namespace std;
+
+Client::Client() {}
+
+Config Client::read_config(string path)
+{
+    std::ifstream input_file(path, std::ifstream::binary);
+    Json::Value root;
+    input_file >> root;
+
+    Config config;
+    for(auto line = root.begin(); line != root.end() ; line++)
+    {
+        config.hostName = (*line)["hostName"].asString();
+        config.commandChannelPort = (*line)["commandChannelPort"].asInt();
+    }
+    return config;
+}
 
 void Client::start() 
 {
-    connect(PORT, SERVER_IP);
+    Config config = read_config(CONFIG_SERVER_DATA_PATH);
+    server_fd = connect_to_server(config.commandChannelPort, config.hostName.c_str());
+    cli.set_server_fd(server_fd);
     FD_ZERO(&master_set);
     FD_SET(STD_IN, &master_set);
-    FD_SET(serverFd, &master_set);
-    max_sd = serverFd;
-    sendRequests();
+    FD_SET(server_fd, &master_set);
+    max_sd = server_fd;
 }
 
-void Client::connect(int port, const char* ip)
+int Client::connect_to_server(const int port, const char* ip)
 {
     struct sockaddr_in server_address;
-    serverFd = socket(AF_INET, SOCK_STREAM, 0);
-    
     server_address.sin_family = AF_INET; 
     server_address.sin_port = htons(port); 
     server_address.sin_addr.s_addr = inet_addr(ip);
 
-    if (connect(serverFd, (struct sockaddr *)&server_address, sizeof(server_address)) < 0)
+    int new_fd = socket(AF_INET, SOCK_STREAM, 0);
+    if (connect(new_fd, (struct sockaddr *)&server_address, sizeof(server_address)) < 0)
     {
         printf("Error in connecting to server\n");
         exit(EXIT_FAILURE);
     }
+    return new_fd;
 }
 
-void Client::sendRequest()
+void Client::send_requests()
 {
     while (1) 
     {
@@ -42,20 +68,26 @@ void Client::sendRequest()
             { 
                 if (i == STD_IN) //input buffer
                 {
-                    char command[MAX_STRING_SIZE] = {0};
-                    int last_char = read(STD_IN, command, MAX_STRING_SIZE);
-                    command[last_char - 1] = '\0';
-                    send(serverFd, command, strlen(command), 0);
+                    try {
+                        string message = cli.get_input(false);
+                        cli.handle_commad(message);
+                    }
+                    catch (ErrorCMD e) {
+                        cout << e.what() << endl;
+                        PRINT_INIT_CMD;
+                    }
                 }
-                else if (i == serverFd) //server response
+                else if (i == server_fd) //server response
                 {
                     char respone[MAX_STRING_SIZE];
-                    int last_char = recv(serverFd, respone, MAX_STRING_SIZE, 0);
+                    int last_char = recv(server_fd, respone, MAX_STRING_SIZE, 0);
                     respone[last_char] = '\0';
-                    printf("server said: %s\n",respone);
+                    printf("%s\n\n",respone);
+                    cli.need_show_menu(respone);
+                    PRINT_INIT_CMD;
                 }
                 else
-                    printf("\n***\tproblem accurd :cant connect to server\t***\n");
+                    printf("\n%s***\tproblem accurd :cant connect to server\t***%s\n", RED_COLOR, WHITE_COLOR);
             }
         }
     }

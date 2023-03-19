@@ -1,9 +1,9 @@
-#include "../include/client.hpp"
+#include "../inc/client.hpp"
 
-int main(int argc, char const *argv[])
+int main(int argc, char const *argv[]) 
 {
-    Client client = Client();
+    Client client;
     client.start();
-    
+    client.send_requests();
     return 0;
 }
