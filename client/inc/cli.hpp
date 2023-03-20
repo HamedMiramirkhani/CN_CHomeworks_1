@@ -1,6 +1,6 @@
 #pragma once
 
-#include "manual.hpp"
+#include "helpCli.hpp"
 
 class Cli
 {

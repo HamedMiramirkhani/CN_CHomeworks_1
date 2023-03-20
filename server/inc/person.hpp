@@ -5,7 +5,7 @@
 #include <sstream>
 
 #include "class_names.hpp"
-#include "manual.hpp"
+#include "help.hpp"
 
 class Person {
 public:

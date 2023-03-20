@@ -1,6 +1,6 @@
 #include "errorCMD.hpp"
 #include "cli.hpp"
-#include "manual.hpp"
+#include "helpCli.hpp"
 
 using namespace std;
 

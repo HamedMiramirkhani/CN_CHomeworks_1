@@ -1,4 +1,4 @@
-#include "manual.hpp"
+#include "help.hpp"
 #include "manager.hpp"
 #include "server.hpp"
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "manual.hpp"
+#include "helpCli.hpp"
 #include "cli.hpp"
 
 class Client

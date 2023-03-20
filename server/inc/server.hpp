@@ -1,6 +1,6 @@
 #pragma once
 
-#include "manual.hpp"
+#include "help.hpp"
 #include "manager.hpp"
 #include "logger.hpp"
 

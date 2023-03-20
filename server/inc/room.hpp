@@ -1,6 +1,6 @@
 #pragma once
 
-#include "manual.hpp"
+#include "help.hpp"
 #include "error.hpp"
 #include "person.hpp"
 
