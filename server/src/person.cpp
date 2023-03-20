@@ -1,9 +1,8 @@
 #include <algorithm>
 
 #include "person.hpp"
-#include "dashboard.hpp"
+#include "manager.hpp"
 #include "error.hpp"
-#include "utils.hpp"
 
 using namespace std;
 
@@ -15,73 +14,73 @@ Person::Person(int id_,string username_, string password_)
 {
 }
 
-bool Person::checkInfo(string username_, string password_) 
+bool Person::check_info(string username_, string password_) 
 {
     return (username == username_ && password == password_);
 }
 
-bool Person::hasUsername(string username_)
+bool Person::has_this_username(string username_)
 {
     return username_ == username; 
 }
 
-bool Person::hasID(int id_)
+bool Person::has_this_id(int id_)
 {
     return id == id_;
 }
 
-void Person::changeInfo(string newPassword, string newPhone, string newAddress) {}
-void Person::changeInfo(string newPassword) {}
-int Person::getPurse() { return 0; }
+void Person::change_info(string new_password, string new_phone, string new_address) {}
+void Person::change_info(string new_password) {}
+int Person::get_wallet() { return 0; }
 void Person::checkout(int price) {}
 void Person::earn(int price) {}
 
-int Person::getID()
+int Person::get_id()
 {
     return id;
 }
 
-User::User(int id_,string username_, string password_, int purse_, string phoneNumber_, string address_) 
+User::User(int id_,string username_, string password_, int purse_, string phone_number_, string address_) 
     : 
     Person(id_, username_, password_) 
 {
     purse = purse_;
-    phoneNumber = phoneNumber_;
+    phone_number = phone_number_;
     address = address_;
-    isAdmin = false;
+    is_admin = false;
 }
 
-unordered_map<string, func_ptr> User::getCmdList()
+unordered_map<string, func_ptr> User::get_command_list()
 {
-    return userCmdList;
+    return user_command_list;
 }
 
-string User::getInfo(string del)
+string User::get_info(string del)
 {
     ostringstream info;
     info << "id: " << to_string(id) << del 
          << "username: " << username << del
          << "password: " << password << del
-         << "isAdmin: " << to_string(isAdmin) << del
+         << "is_admin: " << to_string(is_admin) << del
          << "purse: " << purse << del
-         << "phoneNumber: " << phoneNumber << del
+         << "phone_number: " << phone_number << del
          << "address: " << address << endl;
     return info.str();
 }
 
-void User::changeInfo(string newPassword, string newPhone, string newAddress) 
+void User::change_info(string new_password, string new_phone, string new_address) 
 {
-    if (password == newPassword || 
-        phoneNumber == newPhone ||
-        address == newAddress)
+    if (password == new_password || 
+        phone_number == new_phone ||
+        address == new_address)
         throw Error(503);
 
-    password = (newPassword == "") ?  password : newPassword;
-    phoneNumber = (newPhone == "") ?  phoneNumber : newPhone;
-    address = (newAddress == "") ?  address : newAddress;
+    password = (new_password == "") ?  password : new_password;
+    phone_number = (new_phone == "") ?  phone_number : new_phone;
+    address = (new_address == "") ?  address : new_address;
 }
 
-int User::getPurse()
+int User::get_wallet()
 {
     return purse;
 }
@@ -98,33 +97,50 @@ void User::earn(int price)
     purse += price;
 }
 
+FileDataContainers::UserInfo User::get_data_for_write()
+{
+    FileDataContainers::UserInfo user_info;
+    user_info = {id, purse, username, password, phone_number, address, is_admin};
+    return user_info;
+}
+
 Admin::Admin(int id_,string username_, string password_) 
     : 
     Person(id_, username_, password_) 
 {
-    isAdmin = true;
+    is_admin = true;
 }
 
 
-unordered_map<string, func_ptr> Admin::getCmdList()
+unordered_map<string, func_ptr> Admin::get_command_list()
 {
-    return adminCmdList;
+    return admin_command_list;
 }
 
-string Admin::getInfo(string del)
+string Admin::get_info(string del)
 {
     ostringstream info;
     info << "id: " << to_string(id) << del 
          << "username: " << username << del
          << "password: " << password << del
-         << "isAdmin: " << to_string(isAdmin) << endl;
+         << "is_admin: " << to_string(is_admin) << endl;
     return info.str();
 }
 
-void Admin::changeInfo(string newPassword)
+void Admin::change_info(string new_password)
 {
-    if (password == newPassword)
+    if (password == new_password)
         throw Error(503);
         
-    password = newPassword;
+    password = new_password;
+}
+
+FileDataContainers::UserInfo Admin::get_data_for_write()
+{
+    FileDataContainers::UserInfo user_info;
+    user_info.id = id;
+    user_info.admin = is_admin;
+    user_info.password = password;
+    user_info.user = username;
+    return user_info;
 }

@@ -1,43 +1,26 @@
 #pragma once
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <string.h>
-#include <arpa/inet.h>
-#include <sys/time.h>
-#include <string.h> 
-#include <signal.h>
-#include <sys/ioctl.h>
-#include <stdbool.h>
-#include <unistd.h>
-#include <jsoncpp/json/json.h>
-
 #include "manual.hpp"
-#include "dashboard.hpp"
+#include "manager.hpp"
+#include "logger.hpp"
 
 class Server
 {
-
 public:
-    Server(Dashboard *dashboard);
-    void startServer();
-    void set_fd_set();
-    void runServer();
-
+    Server(Manager *manager);
+    void start();
+    void run();
 private:
-    int serverPort;
-    std::string serverIp;
-    Dashboard *dashboard;
-    int setupServer(int port); 
-    int accept_client(int serverFd);
-
-    int serverFd;
+    FileDataContainers::config read_config(std::string path);
+    int setup(int port); 
+    int accept_client(int server_fd);
+    
+    Logger logger;
+    int server_port;
+    std::string server_ip;
+    Manager *manager;
+    int server_fd;
     fd_set master_set;
     fd_set working_set;
     int max_sd;
-    
 };

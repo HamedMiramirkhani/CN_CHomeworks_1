@@ -1,21 +1,22 @@
-#include <iostream>
-#include <string>
-#include "../inc/error.hpp"
-#include "../inc/manual.hpp"
+#include "error.hpp"
+#include "manual.hpp"
 
 using namespace std;
 
-Error::Error (int errorNum , string extraInfo)
-    :
-    errorNum(errorNum),
-    extraInfo(extraInfo)
+Error::Error (int error_num_): error_num(error_num_) {}
+
+string Error::what()
 {
+    string red_color = RED_COLOR,
+    white_color = WHITE_COLOR;
+
+    string msg = red_color + 
+    "Error " + to_string(error_num) + ": " + 
+    Info::status[error_num] + white_color;
+
+    return msg;
 }
 
-string Error::what(bool moreInfo)
-{
-    string error_msg = "Error " + to_string(errorNum) + 
-                    ": " + Info::status[errorNum];
+Message::Message(string text_): text(text_) {}
 
-    return moreInfo ? error_msg + " -- " + extraInfo : error_msg;
-}
+string Message::what() { return text; }

@@ -1,248 +1,253 @@
-#include "dashboard.hpp"
+#include "manager.hpp"
 #include "manual.hpp"
 #include "error.hpp"
-#include "filehandler.hpp"
-#include "utils.hpp"
 #include "person.hpp"
 #include "room.hpp"
+#include <algorithm>
 
 using namespace std;
 
-void Dashboard::signup()
+string get_param(string line, string key, bool required=true, bool must_print = false) 
 {
-    string username, password, purse, phone, address;
-    username = Utils::getParam(line, "username");
-    password = Utils::getParam(line, "password");
-    purse = Utils::getParam(line, "purse");
-    phone = Utils::getParam(line, "phone");
-    address = Utils::getParam(line, "address");
-    checkExistUsername(username);
-    allUsers.push_back(new User(lastID++, username, password, stoi(purse), phone, address));
+    if(must_print)
+        cout << key;
+    vector<string> words;
+    string ever_word;
+    istringstream all_words(line);
+    while (getline(all_words, ever_word, ' ')) {
+        if (ever_word == "")
+            continue;
+        words.push_back(ever_word);
+    }
+
+    auto x = find(words.begin(), words.end(), key);
+    if (x == words.end())
+    {
+        if (required)
+            throw Error(503);
+        else
+            return "";
+    }
+    return words[distance(words.begin(), x) + 1];
+}
+
+void Manager::signup()
+{
+    string username = get_param(line, "username"),
+    password = get_param(line, "password"),
+    purse = get_param(line, "purse"),
+    phone = get_param(line, "phone"),
+    address = get_param(line, "address");
+    
+    for(auto person : all_users) //exist_username?
+        if (person->has_this_username(username))
+            throw Error(451);
+
+    all_users.push_back(new User(last_id++, username, password, stoi(purse), phone, address));
     throw Error(231);
 }
 
-void Dashboard::checkExistUsername(string username)
+void Manager::signin()
 {
-    for(auto person : allUsers)
-        if (person->hasUsername(username))
-            throw Error(451);
-}
+    string username = get_param(line, "username"),
+    password = get_param(line, "password");
 
-void Dashboard::signin()
-{
-    string username, password;
-    username = Utils::getParam(line, "username");
-    password = Utils::getParam(line, "password");
-    findSignedInUser(username, password);
-    throw Error(230);
-}
-
-void Dashboard::findSignedInUser(string username, string password)
-{
-    for(auto person : allUsers)
-        if (person->checkInfo(username, password))
-        {
-            usersFdMap[userFd] = person;
-            return;
+    bool found = false;
+    for(auto person : all_users) {
+        if (person->check_info(username, password)) {
+            users_fd_map[user_fd] = person;
+            found = true;
         }
-    throw Error(430);
+    }
+
+    if(!found)
+        throw Error(430);
+    else
+        throw Error(230);
 }
 
-void Dashboard::viewUserInformation()
-{
-    cout << usersFdMap[userFd]->getInfo("\n");
-}
-
-void Dashboard::viewAllUsers()
+void Manager::view_all_users()
 {
     ostringstream info;
-    for(auto user : allUsers)
-        info << user->getInfo(" || ");
-    cout << info.str();
+    for(int i=0; i < all_users.size(); i++)
+        info << all_users[i]->get_info(" , ");
+
+    throw Message(info.str());
 }
 
-void Dashboard::viewRoomsInfoForUser()
+void Manager::view_user_information()
+{ throw Message(users_fd_map[user_fd]->get_info("\n")); }
+
+int Manager::chaeck_filter() 
 {
-    int filter_empty_status;
-    filter_empty_status = (Utils::getParam(line, "filter_empty", false) == "") ? 
-                            EmptyFilterStatus::DISABLE : EmptyFilterStatus::ENABLE;
+    int filter_status = DISABLE;
+    if(get_param(line, "filter_empty", false,  false) != "")
+        filter_status = ENABLE;
     
-    getRoomsInfo(false, filter_empty_status);
+    return filter_status;
 }
 
-void Dashboard::viewRoomsInfoForAdmin()
-{
-    getRoomsInfo(true, EmptyFilterStatus::DISABLE);
-}
+void Manager::view_rooms_info_for_user()
+{ throw Message(get_rooms_info(false, chaeck_filter())); }
 
-void Dashboard::getRoomsInfo(bool isAdmin, int filter_empty_status)
+void Manager::view_rooms_info_for_admin()
+{ throw Message(get_rooms_info(true, DISABLE)); }
+
+string Manager::get_rooms_info(bool is_admin, int filter_status)
 {
     ostringstream info;
-    info << "-----------------------------------------------" <<endl;
-    for(auto room : allRooms)
-        info << room->getInfo(today, isAdmin, filter_empty_status);
-    info << "-----------------------------------------------" <<endl;
-    cout << info.str();
+    for(int i=0; i < all_rooms.size(); i++)
+        info << all_rooms[i]->get_info(today, is_admin, filter_status);
+
+    return info.str();
 }
 
-void Dashboard::book()
+void Manager::book()
 {
-    string RoomNum, NumOfBeds, CheckInDate, CheckOutDate;
-    RoomNum = Utils::getParam(line, "RoomNum");
-    NumOfBeds = Utils::getParam(line, "NumOfBeds");
-    CheckInDate = Utils::getParam(line, "CheckInDate");
-    CheckOutDate = Utils::getParam(line, "CheckOutDate");
-    bookOptions(stoi(RoomNum), stoi(NumOfBeds), CheckInDate, CheckOutDate);
+    string room_num = get_param(line, "RoomNum"),
+    num_of_beds = get_param(line, "NumOfBeds"),
+    check_in_date = get_param(line, "CheckInDate"),
+    check_out_date = get_param(line, "CheckOutDate");
+
+    int target_index = find_room(stoi(room_num));
+    all_rooms[target_index]->add_new_rent(stoi(num_of_beds),
+     check_in_date, check_out_date, users_fd_map[user_fd], today);
+    all_rooms[target_index]->update_room(today);
+
     throw Error(110);
 }
 
-void Dashboard::bookOptions(int RoomNum,int NumOfBeds, string CheckInDate, string CheckOutDate)
+void Manager::show_reservations()
 {
-    int room_index = findRoom(RoomNum);
-    allRooms[room_index]->addNewRent(NumOfBeds, CheckInDate, CheckOutDate, 
-                                        usersFdMap[userFd], today);
-    allRooms[room_index]->updateRoom(today);
-}
-
-void Dashboard::showReservations()
-{
-    ostringstream list;
-    list << "-----------------------------------------------" << endl
-         << "today: " << today->day << '-' << today->month << '-' << today->year << endl
-         << "your money: " << usersFdMap[userFd]->getPurse() << endl
+    ostringstream reserve_list;
+    reserve_list << "today: " << today->day << '-' << today->month << '-' << today->year << endl
+         << "your money: " << users_fd_map[user_fd]->get_wallet() << endl
          << "your_reservations:" << endl;
-    for(auto room : allRooms)
-        list << room->checkReserved(usersFdMap[userFd]->getID());
-    list << "-----------------------------------------------" <<endl;
-    cout << list.str();
+    for(int i=0; i < all_rooms.size(); i++)
+        reserve_list << all_rooms[i]->get_info_if_reserve(users_fd_map[user_fd]->get_id());
+    reserve_list << endl;
+
+    throw Message(reserve_list.str());
 }
 
-void Dashboard::cancel()
+void Manager::cancel()
 {
-    string RoomNum, Num;
-    RoomNum = Utils::getParam(line, "RoomNum");
-    Num = Utils::getParam(line, "Num");
-    int room_index = findRoom(stoi(RoomNum)), id = usersFdMap[userFd]->getID();
-    allRooms[room_index]->cancelBook(id, stoi(Num), today);
+    int room_num = stoi(get_param(line, "RoomNum")),
+    num = stoi(get_param(line, "Num")),
+    target_index = find_room(room_num), 
+    id = users_fd_map[user_fd]->get_id();
+
+    all_rooms[target_index]->cancel_book(id, num, today);
     throw Error(106);
 }
 
-void Dashboard::passDay()
+void Manager::pass_day()
 {
-    string value;
-    value = Utils::getParam(line, "value");
-    today->passDay(value);
-    updateRooms();
+    string value = get_param(line, "value");
+    today->pass_day(value);
+    for(int i=0; i < all_rooms.size(); i++)
+        all_rooms[i]->update_room(today);
+
     throw Error(110);
 }
 
-void Dashboard::updateRooms()
+void Manager::edit_information_for_user()
 {
-    for(auto room : allRooms)
-        room->updateRoom(today);
-}
+    string new_password = get_param(line, "new_password", false, false),
+    phone = get_param(line, "phone", false, false),
+    address = get_param(line, "address", false, false);
+    users_fd_map[user_fd]->change_info(new_password, phone, address);
 
-void Dashboard::editInfoForUser()
-{
-    string newPassword, phone, address;
-    newPassword = Utils::getParam(line, "newPassword", false);
-    phone = Utils::getParam(line, "phone", false);
-    address = Utils::getParam(line, "address", false);
-    usersFdMap[userFd]->changeInfo(newPassword, phone, address);
     throw Error(312);
 }
 
-void Dashboard::editInfoForAdmin()
+void Manager::edit_information_for_admin()
 {
-    string newPassword, phone, address;
-    newPassword = Utils::getParam(line, "newPassword");
-    usersFdMap[userFd]->changeInfo(newPassword);
+    string new_password;
+    new_password = get_param(line, "new_password", false, false);
+    users_fd_map[user_fd]->change_info(new_password);
+
     throw Error(312);
 }
 
-void Dashboard::leavingRoomForUser()
+void Manager::leaving_room_for_user()
 {
-    string value;
-    value = Utils::getParam(line, "value");
-    int room_index = findRoom(stoi(value)), id = usersFdMap[userFd]->getID();
-    allRooms[room_index]->leaveRoom(id, today);
+    int value = stoi(get_param(line, "value"));
+    all_rooms[find_room(value)]->leave_room(users_fd_map[user_fd]->get_id(), today);
     throw Error(413);
 }
 
-void Dashboard::leavingRoomForAdmin()
+void Manager::leaving_room_for_admin()
 {
-    string value, newCapacity;
-    value = Utils::getParam(line, "value");
-    newCapacity = Utils::getParam(line, "newCapacity");
-    int room_index = findRoom(stoi(value));
-    allRooms[room_index]->eject(stoi(newCapacity), today);
-    allRooms[room_index]->updateRoom(today);
+    int value = stoi(get_param(line, "value")),
+    new_capacity = stoi(get_param(line, "new_capacity"));
+    all_rooms[find_room(value)]->eject(new_capacity, today);
+    all_rooms[find_room(value)]->update_room(today);
+
     throw Error(110);
 }
 
-void Dashboard::rooms()
+void Manager::rooms()
 {
-    string room_command_request;
-    room_command_request = Utils::getParam(line, "room_command_request");
-    route_command(room_command_request, roomsCmdList);
+    string req_room = get_param(line, 
+    "room_command_request", false, false);
+    auto func = rooms_command_list.find(req_room);
+    if (func == rooms_command_list.end()) 
+        throw Error(403);
+    (this->*(func->second))();
 }
 
-void Dashboard::roomsAdd()
+void Manager::rooms_add()
 {
-    string RoomNum, Max_Capacity, Price;
-    RoomNum = Utils::getParam(line, "RoomNum");
-    Max_Capacity = Utils::getParam(line, "Max_Capacity");
-    Price = Utils::getParam(line, "Price");
-    checkExistRoom(RoomNum);
-    allRooms.push_back(make_shared<Room>(stoi(RoomNum), RoomStatus::EMPTY, stoi(Price), stoi(Max_Capacity),
-                                          stoi(Max_Capacity), vector<shared_ptr<Rent>>{}));
+    int room_num = stoi(get_param(line, "RoomNum")),
+    max_capacity = stoi(get_param(line, "Max_Capacity")),
+    price = stoi(get_param(line, "Price"));
+    //exist room?
+    for(int i=0; i < all_rooms.size(); i++)
+        if(all_rooms[i]->match_room_num(room_num))
+            throw Error(111);
+
+    all_rooms.push_back(make_shared<Room>(room_num,
+     RoomStatus::EMPTY, price, max_capacity,
+     max_capacity, vector<shared_ptr<Rent>>{}));
+
     throw Error(104);
 }
 
-void Dashboard::checkExistRoom(string RoomNum)
+void Manager::rooms_modify()
 {
-    for (auto room : allRooms)
-        if(room->has_room_num(stoi(RoomNum)))
-            throw Error(111);
-}
+    int room_num = stoi(get_param(line, "RoomNum", false, false));
+    string new_Max_Capacity = get_param(line, "Max_Capacity", false, false),
+    new_price = get_param(line, "Price", false);
+    all_rooms[find_room(room_num)]->change_info(new_Max_Capacity, new_price);
 
-void Dashboard::roomsChange()
-{
-    string RoomNum, new_Max_Capacity, new_Price;
-    RoomNum = Utils::getParam(line, "RoomNum", false);
-    new_Max_Capacity = Utils::getParam(line, "Max_Capacity", false);
-    new_Price = Utils::getParam(line, "Price", false);
-    int room_index = findRoom(stoi(RoomNum));
-    allRooms[room_index]->changeInfo(new_Max_Capacity, new_Price);
     throw Error(105);
 }
 
-void Dashboard::roomsRemove()
+void Manager::rooms_remove()
 {
-    string RoomNum;
-    RoomNum = Utils::getParam(line, "RoomNum");
-    int room_index = findRoom(stoi(RoomNum));
-    checkRoomEmpty(room_index);
-    allRooms.erase(allRooms.begin() + room_index);
+    int room_num = stoi(get_param(line, "RoomNum"));
+    int room_index = find_room(room_num);
+    // is empty room?
+    if(all_rooms[room_index]->has_user(today))
+        throw Error(109);
+        
+    all_rooms.erase(all_rooms.begin() + room_index);
+
     throw Error(106);
 }
 
-void Dashboard::checkRoomEmpty(int room_index)
+int Manager::find_room(int room_num)
 {
-    if(allRooms[room_index]->hasUser(today))
-        throw Error(109);
-}
-
-int Dashboard::findRoom(int room_num)
-{
-    for(unsigned int i = 0; i < allRooms.size(); i++)
-        if(allRooms[i]->has_room_num(room_num))
+    for(int i = 0; i < all_rooms.size(); i++)
+        if(all_rooms[i]->match_room_num(room_num))
             return i;
+            
     throw Error(101);
 }
 
-void Dashboard::logout()
+void Manager::logout()
 {
-    usersFdMap[userFd] = nullptr;
+    users_fd_map[user_fd] = nullptr;
     throw Error(201);
 }

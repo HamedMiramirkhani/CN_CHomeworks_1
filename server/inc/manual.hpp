@@ -1,62 +1,81 @@
 #pragma once
-
-#include <vector>
-#include <cstring>
-#include <string>
+//libs
+#include <stdio.h>
 #include <sstream>
 #include <map>
+#include <vector>
+#include <fstream>
+#include <unistd.h>
+#include <arpa/inet.h>
+#include <cstring>
+#include <iostream>
+#include <stdlib.h>
+#include <algorithm>
+#include <fcntl.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <string.h>
+#include <sys/time.h>
+#include <signal.h>
+#include <sys/ioctl.h>
+#include <stdbool.h>
+#include <memory>
+#if __has_include(<jsoncpp/json/json.h>)
+# include <jsoncpp/json/json.h>
+#elif __has_include(<json/json.h>)
+#include <json/json.h>
+#endif
+
+//colors
+#define RED_COLOR "\x1B[31m"
+#define WHITE_COLOR "\x1B[37m"
+
+#include "class_names.hpp"
 
 #define MAX_CONNECTIONS 20
 #define MAX_NAME_SIZE 256
-#define MAX_STRING_SIZE 1024
+#define MAX_STRING_SIZE 4096
 #define NOT_CONNECTED -3
 #define NOT_FOUND -1
 #define STD_IN 0
 #define STD_OUT 1
 
-struct Date
-{
-    int day;
-    int month;
-    int year;
-};
 
-struct AdminUserInfo
+namespace Paths
 {
-    int id;
-    std::string username;
-    std::string password;
-    bool admin;
-};
+    const std::string CONFIG_SERVER_DATA_PATH = "./../json_files/config.json";
+    const std::string USERS_DATA_PATH = "./../json_files/users.json";
+    const std::string ROOMS_DATA_PATH = "./../json_files/rooms.json";
+    const std::string LOG_CLUSTER_PATH = "./../cluster.log";
+}
 
-struct SimpleUserInfo
+namespace FileDataContainers
 {
-    int id;
-    std::string username;
-    std::string password;
-    bool admin;     
-    int money;
-    std::string phoneNumber;
-    std::string address;
-};
+    struct config
+    {
+        std::string hostName;
+        int commandChannelPort;
+    };
 
-struct TravelerInfo
-{
-    int id;
-    int number_of_beds;
-    Date checkin_date;
-    Date checkout_date;
-};
+    struct UserInfo
+    {
+        int id, purse;
+        std::string user, password, phoneNumber, address;
+        bool admin;
+    };
 
-struct RoomInfo
-{
-    std::string number;    
-    int status;
-    int price;
-    int maxCapacity;
-    int capacity;
-    std::vector <TravelerInfo> room_residents;
-};
+    struct RentInfo
+    {
+        int id, numOfBeds;
+        std::string reserveDate, checkoutDate;
+    };
+    
+    struct RoomInfo
+    {
+        int number, status, price, maxCapacity, capacity;
+        std::vector<RentInfo> users;
+    };
+}
 
 struct Info
 {
@@ -78,6 +97,7 @@ struct Info
             {201, "USER_LOGED_OUT_SUCCESSFULLY"},
             {230, "USER_LOGED_IN"},
             {231, "USER_SUCCESSFULLY_SIGNED_UP"},
+            {232, "YOU_LOGED_IN_BEFORE"},
             {311, "USER_SIGNED_UP.ENTER_YOUR -PASS-MONEY-PHONE-ADDR-"},
             {312, "INFORMATION_CHANGED_SUCCESSFULLY"},
             {401, "INVALID_VALUE"},
@@ -97,14 +117,8 @@ namespace RoomStatus
 {
     const int EMPTY = 0;
     const int FULL = 1;
-    const std::vector<std::string> str_form = {
-        "EMPTY",
-        "FULL"
-    };
+    const std::vector<std::string> str_form = {"EMPTY","FULL"};
 }
 
-namespace EmptyFilterStatus 
-{
-    const int ENABLE = 1;
-    const int DISABLE = 0;
-}
+enum filter 
+{ ENABLE = 1, DISABLE = 0 };

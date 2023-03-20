@@ -1,40 +1,28 @@
-PROJECT_NAME := server
 CC        := g++
-SRCDIR    := src
-HEADERDIR := inc
-BUILDDIR  := build
-BINDIR    := bin
-TARGET    := $(BINDIR)/$(PROJECT_NAME)
-SOURCES   := $(shell find $(SRCDIR) -type f -name *.c*)
-HEDEARS   := $(shell find $(HEADERDIR) -type f -name *.h*)
-OBJECTS   := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(addsuffix .o,$(basename $(SOURCES))))
-DEPS      := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(addsuffix .d,$(basename $(SOURCES))))
-CFLAGS    := -Wall
+PROJECT   := server
+SRC_DIR    := src
+BUILD_DIR  := build
+EXE_DIR    := exe
+TARGET    := $(EXE_DIR)/$(PROJECT)
+SOURCES   := $(shell find $(SRC_DIR) -type f -name *.c*)
+OBJECTS   := $(patsubst $(SRC_DIR)/%,$(BUILD_DIR)/%, \
+$(addsuffix .o,$(basename $(SOURCES))))
+CFLAGS    := 
 LIB       := -ljsoncpp
 INC       := -I inc -I src
 
-all: debug
-debug: CFLAGS += -g
-debug: $(TARGET)
-release: $(TARGET)
-release: CFLAGS += -O3
-
 all: $(TARGET)
 
-clean:
-	rm $(BUILDDIR) $(BINDIR) -rf
-
-$(TARGET): $(BINDIR) $(BUILDDIR) $(OBJECTS)
+$(TARGET): $(EXE_DIR) $(BUILD_DIR) $(OBJECTS)
 	@$(CC) $(OBJECTS) -o $(TARGET) $(LIB)
-	
 
-$(BUILDDIR) :
-	mkdir $(BUILDDIR)
+$(BUILD_DIR) :
+	mkdir $(BUILD_DIR)
 
-$(BINDIR):
-	mkdir $(BINDIR)
+$(EXE_DIR):
+	mkdir $(EXE_DIR)
 	
-$(BUILDDIR)/%.o: $(SRCDIR)/%.c*
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c*
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) $(INC) -c -o $@ $<
 	@$(CC) $(CFLAGS) $(INC) -M $< -MT $@ > $(@:.o=.td)
@@ -44,6 +32,10 @@ $(BUILDDIR)/%.o: $(SRCDIR)/%.c*
 	@rm -f $(@:.o=.td)
 
 
--include $(DEPS)
-
 .PHONY: clean all
+
+clean:
+	rm $(BUILD_DIR) $(EXE_DIR) -rf
+
+
+

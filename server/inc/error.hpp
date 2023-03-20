@@ -5,9 +5,17 @@
 class Error
 {
 public:
-    Error(int errorNum , std::string extraInfo = "");
-    std::string what(bool moreInfo = false);
+    Error(int error_number);
+    std::string what();
 private:
-    int errorNum;
-    std::string extraInfo;
+    int error_num;
+};
+
+class Message
+{
+public:
+    Message(std::string text_);
+    std::string what();
+private:
+    std::string text;
 };
