@@ -135,8 +135,69 @@ Access: User, Admin
 #### `6.Booking`
 Access: User
 
+````bash
+<RoomNum> <NumofBeds> ‹CheckInDate> ‹CheckOutDate>
+````
+
 ##### User
 ![Booking(user)](./Pictures_README/06_user.png "Booking(user)")
+
+
+#### `7.Canceling`
+Access: User
+
+````bash
+cancel <RoomNum> <Num>
+````
+
+##### User
+<!-- ![Canceling(user)](./Pictures_README/07_user.png "Canceling(user)") -->
+
+
+#### `8.Pass day`
+Access: Admin
+
+````bash
+<value>
+````
+##### Admin
+![Pass day(admin)](./Pictures_README/08_admin.png "Pass day(admin)")
+
+
+#### `9.Edit information`
+Access: User, Admin
+
+````bash
+<New password> <phone> <address>
+````
+<!-- ![Edit information](./Pictures_README/09.png "Edit information") -->
+
+
+#### `10.Leaving room`
+Access: User, Admin
+
+##### Admin
+````bash
+<room> <new capacity>
+````
+
+##### User
+````bash
+<room>
+````
+
+#### `11.Rooms`
+Access: Admin
+
+````bash
+add <room> <capacity> <price>
+modify <room> <new capacity> <new price>
+remove <room>
+````
+
+#### `12.Logout`
+Access: User, Admin
+
 
 ## Contributors
 - [Hamed Miramirkhani](https://github.com/HamedMiramirkhani) - 810199500
