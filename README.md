@@ -121,8 +121,15 @@ Access: Admin
 ##### User
 ![View all users(user)](./Pictures_README/04_user.png "View all users(user)")
 
+
 #### `5.View Rooms Information`
 Access: User, Admin
+
+##### Admin
+![View Rooms Information(admin)](./Pictures_README/05_admin.png "View Rooms Information(admin)")
+
+##### User
+![View Rooms Information(user)](./Pictures_README/05_user.png "View Rooms Information(user)")
 
 
 
