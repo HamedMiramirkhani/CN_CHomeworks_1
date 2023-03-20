@@ -105,7 +105,7 @@ After signing in, the menu panel will become visible:
 
 
 #### `3.View user information`
-This command is applicable to both users and admin:
+Access: User, Admin
 ##### Admin
 ![View user information(Admin)](./Pictures_README/03_admin.png "View user information(Admin)")
 
@@ -114,12 +114,17 @@ This command is applicable to both users and admin:
 
 
 #### `4.View all users`
-This command is exclusively for admin:
+Access: Admin
 ##### Admin
 ![View all users(admin)](./Pictures_README/04_admin.png "View all users(admin)")
 
 ##### User
 ![View all users(user)](./Pictures_README/04_user.png "View all users(user)")
+
+#### `5.View Rooms Information`
+Access: User, Admin
+
+
 
 ## Contributors
 - [Hamed Miramirkhani](https://github.com/HamedMiramirkhani) - 810199500
