@@ -74,9 +74,38 @@ The server only has one command to set its date. To do so, you simply need to ex
 ```bash
 setTime day-month-year
 ```
-![Server setTime command](./Pictures_README/SetTime.png)
+![Server setTime command](./Pictures_README/00_SetTime.png "Server setTime command")
+
 
 ### Client
+
+First of all, you need to signin or signup to the system. To do so, you need to execute the following command:
+> **Warning**
+> After signup, you need to signin to the system.
+
+#### `Signup`
+```bash
+1
+<Username> <password> <purse> <phone> <address>
+```
+![Client signup command](./Pictures_README/01_Signup.png "Client signup command")
+
+
+#### `Signin`
+```bash
+2
+<Username> <password>
+```
+![Client signin command](./Pictures_README/01_Signin.png "Client signin command")
+
+
+After signing in, the menu panel will become visible:
+#### `Menu Panel`
+![Menu Panel](./Pictures_README/02_MenuPanel.png "Menu Panel")
+
+
+
+
 
 ## Contributors
 - [Hamed Miramirkhani](https://github.com/HamedMiramirkhani) - 810199500
