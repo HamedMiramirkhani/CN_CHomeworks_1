@@ -132,6 +132,11 @@ Access: User, Admin
 ![View Rooms Information(user)](./Pictures_README/05_user.png "View Rooms Information(user)")
 
 
+#### `6.Booking`
+Access: User
+
+##### User
+![Booking(user)](./Pictures_README/06_user.png "Booking(user)")
 
 ## Contributors
 - [Hamed Miramirkhani](https://github.com/HamedMiramirkhani) - 810199500
