@@ -105,28 +105,17 @@ struct commands_help
         std::map<int,std::string> messages = 
         {
             {logout_cmdNum, ""},
-            {signup_cmdNum, "Err -> 311: User Signed up. Enter your username, password, purse, \
-            phone and address.\nCommand -> <username> <password> <purse> <phone> <address>\n"},
-            {signin_cmdNum, "Command -> <username> <password>\n\nHelp -> username: \
-            Username, password: user password\n"},
+            {signup_cmdNum, "Err -> 311: User Signed up. Enter your username, password, purse, phone and address.\nCommand -> <username> <password> <purse> <phone> <address>\n"},
+            {signin_cmdNum, "Command -> <username> <password>\n\nHelp -> username: Username, password: user password\n"},
             {View_user_information_cmdNum, ""},
             {View_all_users_cmdNum, ""},
-            {View_rooms_information_cmdNum, "Command -> filter_empty <empty filter>\n\nHelp -> \
-            empty filter: type enable or enter (for admin this is not matter)\n"},
-            {Booking_cmdNum, "Command -> <RoomNum> <NumOfBeds> <CheckInDate> <CheckOutDate>\n\n \
-            Help -> RoomNum: Number of room, NumOfBeds: Number of reservation(per person)\nHelp -> \
-            CheckInDate: Start date of reservation, CheckOutDate: End date of reservation\n"},
-            {Canceling_cmdNum, "Command -> <RoomNum> <Num>\n\nHelp -> RoomNum: Number of room, Num: \
-            Number of reservation(per person)\n"},
+            {View_rooms_information_cmdNum, "Command -> filter_empty <empty filter>\n\nHelp -> empty filter: type enable or enter\n"},
+            {Booking_cmdNum, "Command -> <RoomNum> <NumOfBeds> <CheckInDate> <CheckOutDate>\n\n Help -> RoomNum: Number of room, NumOfBeds: Number of reservation(per person)\nHelp -> CheckInDate: Start date of reservation, CheckOutDate: End date of reservation\n"},
+            {Canceling_cmdNum, "Command -> <RoomNum> <Num>\n\nHelp -> RoomNum: Number of room, Num: Number of reservation(per person)\n"},
             {pass_day_cmdNum, "Command -> <value>\n\nHelp -> value: number of day you want to pass\n"},
-            {Edit_information_cmdNum, "Command -> new_password <new password> phone <phone> address \
-            <address>\n\nNote: all flags are optional\n"},
-            {Leaving_room_cmdNum, "for user :\nCommand -> value <value>\nfor admin:\nCommand -> value \
-            <value> new_capacity <new capacity>\n\nHelp -> value: Room number\nHelp -> \
-            new capacity: Enter new capacity of the room\n"},
-            {Rooms_cmdNum, "Command -> add <RoomNum> <Max Capacity> <Price>\nCommand \
-            -> modify RoomNum <RoomNum> Max_Capacity <new Max Capacity> Price \
-            <new Price>\nCommand -> remove <RoomNum>\n"},
+            {Edit_information_cmdNum, "Command -> new_password <new password> phone <phone> address <address>\n\nNote: all flags are optional\n"},
+            {Leaving_room_cmdNum, "for user :\nCommand -> value <value>\nfor admin:\nCommand -> value <value> new_capacity <new capacity>\n\nHelp -> value: Room number\nHelp -> new capacity: Enter new capacity of the room\n"},
+            {Rooms_cmdNum, "Command -> add <RoomNum> <Max Capacity> <Price>\nCommand -> modify RoomNum <RoomNum> Max_Capacity <new Max Capacity> Price <new Price>\nCommand -> remove <RoomNum>\n"}
         };
         return messages;
     }
