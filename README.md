@@ -185,6 +185,7 @@ Access: User, Admin
 ````bash
 <room>
 ````
+![Leaving room(user)](./Pictures_README/10_user.png "Leaving room(user)")
 
 #### `11.Rooms`
 Access: Admin
