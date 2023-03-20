@@ -83,7 +83,7 @@ First of all, you need to signin or signup to the system. To do so, you need to 
 > **Warning**
 > After signup, you need to signin to the system.
 
-#### `Signup`
+#### `1.Signup`
 ```bash
 1
 <Username> <password> <purse> <phone> <address>
@@ -91,7 +91,7 @@ First of all, you need to signin or signup to the system. To do so, you need to 
 ![Client signup command](./Pictures_README/01_Signup.png "Client signup command")
 
 
-#### `Signin`
+#### `2.Signin`
 ```bash
 2
 <Username> <password>
@@ -104,7 +104,7 @@ After signing in, the menu panel will become visible:
 ![Menu Panel](./Pictures_README/02_MenuPanel.png "Menu Panel")
 
 
-#### `View user information`
+#### `3.View user information`
 This command is applicable to both users and admin:
 ##### Admin
 ![View user information(Admin)](./Pictures_README/03_admin.png "View user information(Admin)")
@@ -112,6 +112,14 @@ This command is applicable to both users and admin:
 ##### User
 ![View user information(User)](./Pictures_README/03_user.png "View user information(User)")
 
+
+#### `4.View all users`
+This command is exclusively for admin:
+##### Admin
+![View all users(admin)](./Pictures_README/04_admin.png "View all users(admin)")
+
+##### User
+![View all users(user)](./Pictures_README/04_user.png "View all users(user)")
 
 ## Contributors
 - [Hamed Miramirkhani](https://github.com/HamedMiramirkhani) - 810199500
