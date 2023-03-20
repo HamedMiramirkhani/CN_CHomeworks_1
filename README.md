@@ -10,6 +10,9 @@
     - [How to run](#how-to-run)
         - [Server](#server-1)
         - [Client](#client-1)
+    - [Usage](#usage)
+        - [Server](#server-2)
+        - [Client](#client-2)
     - [Contributors](#contributors)
 
 
@@ -61,6 +64,13 @@ then run the client program by running this command:
 ```bash
 ./exe/client
 ```
+
+## Usage
+The server and client programs are designed to be used in the terminal, so you should use commands to interact with them.
+
+### Server
+
+### Client
 
 ## Contributors
 - [Hamed Miramirkhani](https://github.com/HamedMiramirkhani) - 810199500
