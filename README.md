@@ -104,7 +104,13 @@ After signing in, the menu panel will become visible:
 ![Menu Panel](./Pictures_README/02_MenuPanel.png "Menu Panel")
 
 
+#### `View user information`
+This command is applicable to both users and admin:
+##### Admin
+![View user information(Admin)](./Pictures_README/03_admin.png "View user information(Admin)")
 
+##### User
+![View user information(User)](./Pictures_README/03_user.png "View user information(User)")
 
 
 ## Contributors
