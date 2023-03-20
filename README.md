@@ -13,6 +13,7 @@
     - [Usage](#usage)
         - [Server](#server-2)
         - [Client](#client-2)
+    - [Json files](#json-files)
     - [Contributors](#contributors)
 
 
@@ -211,6 +212,23 @@ remove <room>
 Access: User, Admin
 
 ![Logout](./Pictures_README/0_logout.png "Logout")
+
+
+## Json files
+We have 3 json files in json_files folder.
+
+### 1. config.json
+This file contains the hostname and port number of the server.
+![config.json](./Pictures_README/21_config.png "config.json")
+
+### 2. rooms.json
+This file contains the information of all rooms.
+![rooms.json](./Pictures_README/22_rooms.png "rooms.json")
+
+### 3. users.json
+This file contains the information of all users.
+![users.json](./Pictures_README/23_users.png "users.json")
+
 
 
 ## Contributors
