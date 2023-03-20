@@ -42,7 +42,7 @@
 const std::string CONFIG_SERVER_DATA_PATH = "./../json_files/config.json";
 const std::string USERS_DATA_PATH = "./../json_files/users.json";
 const std::string ROOMS_DATA_PATH = "./../json_files/rooms.json";
-const std::string LOG_CLUSTER_PATH = "./../cluster.log";
+const std::string LOGGER_PATH = "./../my_log.log";
 
 
 
