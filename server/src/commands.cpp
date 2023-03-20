@@ -1,9 +1,6 @@
 #include "manager.hpp"
 #include "help.hpp"
 #include "error.hpp"
-#include "person.hpp"
-#include "room.hpp"
-#include <algorithm>
 
 using namespace std;
 

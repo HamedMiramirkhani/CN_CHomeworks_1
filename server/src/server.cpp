@@ -1,5 +1,4 @@
 #include "server.hpp"
-#include "help.hpp"
 
 using namespace std;
 

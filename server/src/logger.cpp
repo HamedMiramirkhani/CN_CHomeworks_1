@@ -1,10 +1,6 @@
 #include "logger.hpp"
 #include "help.hpp"
 
-#include <iostream>
-#include <fstream>
-#include <string.h>
-
 using namespace std;
 
 Logger::Logger()
