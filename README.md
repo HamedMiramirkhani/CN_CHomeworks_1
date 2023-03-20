@@ -68,7 +68,12 @@ then run the client program by running this command:
 ## Usage
 The server and client programs are designed to be used in the terminal, so you should use commands to interact with them.
 
+
 ### Server
+The server only has one command to set its date. To do so, you simply need to execute the following command:
+```bash
+setTime day-month-year
+```
 
 ### Client
 
