@@ -74,6 +74,7 @@ The server only has one command to set its date. To do so, you simply need to ex
 ```bash
 setTime day-month-year
 ```
+![Server setTime command](./Pictures_README/SetTime.png)
 
 ### Client
 
