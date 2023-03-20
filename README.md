@@ -191,12 +191,25 @@ Access: Admin
 
 ````bash
 add <room> <capacity> <price>
+````
+![Rooms add](./Pictures_README/11_add.png "Rooms add")
+
+
+````bash
 modify <room> <new capacity> <new price>
+````
+![Rooms modify](./Pictures_README/11_modify.png "Rooms modify")
+
+````bash
 remove <room>
 ````
+![Rooms remove](./Pictures_README/11_remove.png "Rooms remove")
+
 
 #### `12.Logout`
 Access: User, Admin
+
+![Logout](./Pictures_README/0_logout.png "Logout")
 
 
 ## Contributors
