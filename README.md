@@ -44,7 +44,7 @@ make
 ```
 then run the server program by running this command:
 ```bash
-./server
+./exe/server
 ```
 
 ### Client
@@ -55,7 +55,7 @@ make
 ```
 then run the client program by running this command:
 ```bash
-./client
+./exe/client
 ```
 
 ## Contributors
