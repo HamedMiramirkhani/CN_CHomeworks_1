@@ -33,49 +33,41 @@
 #include "class_names.hpp"
 
 #define MAX_CONNECTIONS 20
-#define MAX_NAME_SIZE 256
 #define MAX_STRING_SIZE 4096
 #define NOT_CONNECTED -3
-#define NOT_FOUND -1
 #define STD_IN 0
 #define STD_OUT 1
 
+//path
+const std::string CONFIG_SERVER_DATA_PATH = "./../json_files/config.json";
+const std::string USERS_DATA_PATH = "./../json_files/users.json";
+const std::string ROOMS_DATA_PATH = "./../json_files/rooms.json";
+const std::string LOG_CLUSTER_PATH = "./../cluster.log";
 
-namespace Paths
+
+
+struct config
 {
-    const std::string CONFIG_SERVER_DATA_PATH = "./../json_files/config.json";
-    const std::string USERS_DATA_PATH = "./../json_files/users.json";
-    const std::string ROOMS_DATA_PATH = "./../json_files/rooms.json";
-    const std::string LOG_CLUSTER_PATH = "./../cluster.log";
-}
-
-namespace FileDataContainers
+    std::string hostName;
+    int commandChannelPort;
+};
+struct UserInfo
 {
-    struct config
-    {
-        std::string hostName;
-        int commandChannelPort;
-    };
+    int id, purse;
+    std::string user, password, phoneNumber, address;
+    bool admin;
+};
+struct RentInfo
+{
+    int id, numOfBeds;
+    std::string reserveDate, checkoutDate;
+};
+struct RoomInfo
+{
+    int number, status, price, maxCapacity, capacity;
+    std::vector<RentInfo> users;
+};
 
-    struct UserInfo
-    {
-        int id, purse;
-        std::string user, password, phoneNumber, address;
-        bool admin;
-    };
-
-    struct RentInfo
-    {
-        int id, numOfBeds;
-        std::string reserveDate, checkoutDate;
-    };
-    
-    struct RoomInfo
-    {
-        int number, status, price, maxCapacity, capacity;
-        std::vector<RentInfo> users;
-    };
-}
 
 struct Info
 {
@@ -115,10 +107,9 @@ struct Info
 
 namespace RoomStatus 
 {
-    const int EMPTY = 0;
-    const int FULL = 1;
     const std::vector<std::string> str_form = {"EMPTY","FULL"};
 }
-
+enum room_status
+{ EMPTY = 0, FULL = 1 };
 enum filter 
 { ENABLE = 1, DISABLE = 0 };

@@ -48,7 +48,7 @@ DateConfig Room::convert_to_DataConfig(string str)
 string Room::get_info(DateConfig* today, bool is_admin, int filter_empty_status)
 {
     if(filter_empty_status == ENABLE &&
-     status == RoomStatus::FULL)
+     status == FULL)
         return "";
     
     ostringstream info;
@@ -108,7 +108,7 @@ void Room::update_room(DateConfig* today)
             occupied_beds += rent->num_of_beds;
 
     capacity = max_capacity - occupied_beds;
-    status = (capacity == 0) ? RoomStatus::FULL : RoomStatus::EMPTY;
+    status = (capacity == 0) ? FULL : EMPTY;
 }
 
 int Room::calc_occupied_beds(DateConfig* today)
@@ -216,10 +216,10 @@ void Room::eject(int new_capacity, DateConfig* today)
     max_capacity = new_capacity;
 }
 
-FileDataContainers::RoomInfo Room::get_data_for_write()
+RoomInfo Room::get_data_for_write()
 {
-    FileDataContainers::RoomInfo room_info;
-    vector<FileDataContainers::RentInfo> users;
+    RoomInfo room_info;
+    vector<RentInfo> users;
     for(auto rent : rents)
         users.push_back({rent->person->get_id(), rent->num_of_beds, 
                          convert_DataConfig_to_string(rent->reserveDate), 

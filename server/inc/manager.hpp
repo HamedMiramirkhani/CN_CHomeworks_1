@@ -38,11 +38,11 @@ public:
     void save_data();
     void logout();
 private:
-    std::vector<FileDataContainers::RentInfo> get_rents(Json::Value users);
-    std::vector<FileDataContainers::RoomInfo> read_rooms_info();
-    std::vector<FileDataContainers::UserInfo> read_users_info();
-    void write_users_info(std::vector<FileDataContainers::UserInfo> info);
-    void write_rooms_info(std::vector<FileDataContainers::RoomInfo> info);
+    std::vector<RentInfo> get_rents(Json::Value users);
+    std::vector<RoomInfo> read_rooms_info();
+    std::vector<UserInfo> read_users_info();
+    void write_users_info(std::vector<UserInfo> info);
+    void write_rooms_info(std::vector<RoomInfo> info);
 
     std::string split_line_by_space(std::string str);
     DateConfig convert_to_DataConfig(std::string str);

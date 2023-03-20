@@ -21,7 +21,7 @@ public:
     virtual int get_wallet();
     virtual void checkout(int price);
     virtual void earn(int price);
-    virtual FileDataContainers::UserInfo get_data_for_write() = 0;
+    virtual UserInfo get_data_for_write() = 0;
 protected:
     int id;
     std::string username;
@@ -38,7 +38,7 @@ public:
     int get_wallet();
     void checkout(int price);
     void earn(int price);
-    FileDataContainers::UserInfo get_data_for_write();
+    UserInfo get_data_for_write();
 private:
     int purse;
     std::string phone_number;
@@ -51,5 +51,5 @@ public:
     std::unordered_map<std::string, func_ptr> get_command_list();
     std::string get_info(std::string del);
     void change_info(std::string new_password);
-    FileDataContainers::UserInfo get_data_for_write();
+    UserInfo get_data_for_write();
 };

@@ -8,25 +8,25 @@ Server::Server(Manager *manager)
     logger(Logger()), manager(manager),
     server_fd(NOT_CONNECTED), max_sd(0)
 {
-    FileDataContainers::config config = read_config(Paths::CONFIG_SERVER_DATA_PATH);
-    server_port = config.commandChannelPort;
-    server_ip = config.hostName;
+    config config_server = read_config(CONFIG_SERVER_DATA_PATH);
+    server_port = config_server.commandChannelPort;
+    server_ip = config_server.hostName;
 }
 
-FileDataContainers::config Server::read_config(string path)
+config Server::read_config(string path)
 {
     ifstream input_file(path, ifstream::binary);
     Json::Value root;
     input_file >> root;
 
-    FileDataContainers::config config;
+    config config_server;
     for(auto line = root.begin(); line != root.end() ; line++)
     {
-        config.hostName = (*line)["hostName"].asString();
-        config.commandChannelPort = (*line)["commandChannelPort"].asInt();
+        config_server.hostName = (*line)["hostName"].asString();
+        config_server.commandChannelPort = (*line)["commandChannelPort"].asInt();
     }
     input_file.close();
-    return config;
+    return config_server;
 }
 
 void Server::start() 

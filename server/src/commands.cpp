@@ -208,7 +208,7 @@ void Manager::rooms_add()
             throw Error(111);
 
     all_rooms.push_back(make_shared<Room>(room_num,
-     RoomStatus::EMPTY, price, max_capacity,
+     EMPTY, price, max_capacity,
      max_capacity, vector<shared_ptr<Rent>>{}));
 
     throw Error(104);

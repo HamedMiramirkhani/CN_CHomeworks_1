@@ -97,9 +97,9 @@ void User::earn(int price)
     purse += price;
 }
 
-FileDataContainers::UserInfo User::get_data_for_write()
+UserInfo User::get_data_for_write()
 {
-    FileDataContainers::UserInfo user_info;
+    UserInfo user_info;
     user_info = {id, purse, username, password, phone_number, address, is_admin};
     return user_info;
 }
@@ -135,9 +135,9 @@ void Admin::change_info(string new_password)
     password = new_password;
 }
 
-FileDataContainers::UserInfo Admin::get_data_for_write()
+UserInfo Admin::get_data_for_write()
 {
-    FileDataContainers::UserInfo user_info;
+    UserInfo user_info;
     user_info.id = id;
     user_info.admin = is_admin;
     user_info.password = password;

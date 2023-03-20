@@ -11,7 +11,7 @@ public:
     void start();
     void run();
 private:
-    FileDataContainers::config read_config(std::string path);
+    config read_config(std::string path);
     int setup(int port); 
     int accept_client(int server_fd);
     

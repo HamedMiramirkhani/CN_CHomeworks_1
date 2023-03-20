@@ -105,16 +105,16 @@ unordered_map<string, func_ptr> Manager::get_command_list(int fd)
         return person->get_command_list();
 }
 
-vector<FileDataContainers::UserInfo> Manager::read_users_info()
+vector<UserInfo> Manager::read_users_info()
 {
-    ifstream input_file(Paths::USERS_DATA_PATH, ifstream::binary);
+    ifstream input_file(USERS_DATA_PATH, ifstream::binary);
     Json::Value root;
     input_file >> root;
 
-    vector<FileDataContainers::UserInfo> info;
+    vector<UserInfo> info;
     for(auto user = root.begin(); user != root.end() ; user++)
     {
-        FileDataContainers::UserInfo new_user;
+        UserInfo new_user;
         new_user.id = (*user)["id"].asInt();
         new_user.user = (*user)["user"].asString();
         new_user.password = (*user)["password"].asString();
@@ -129,12 +129,12 @@ vector<FileDataContainers::UserInfo> Manager::read_users_info()
     return info;
 }
 
-vector<FileDataContainers::RentInfo> Manager::get_rents(Json::Value users)
+vector<RentInfo> Manager::get_rents(Json::Value users)
 {
-    vector<FileDataContainers::RentInfo> info;
+    vector<RentInfo> info;
     for(auto rent = users.begin(); rent != users.end() ; rent++)
     {
-        FileDataContainers::RentInfo rent_info;
+        RentInfo rent_info;
         rent_info.id = (*rent)["id"].asInt();
         rent_info.numOfBeds = (*rent)["numOfBeds"].asInt();
         rent_info.reserveDate = (*rent)["reserveDate"].asString();
@@ -144,16 +144,16 @@ vector<FileDataContainers::RentInfo> Manager::get_rents(Json::Value users)
     return info;
 }
 
-vector<FileDataContainers::RoomInfo> Manager::read_rooms_info()
+vector<RoomInfo> Manager::read_rooms_info()
 {
-    ifstream input_file(Paths::ROOMS_DATA_PATH, ifstream::binary);
+    ifstream input_file(ROOMS_DATA_PATH, ifstream::binary);
     Json::Value root;
     input_file >> root;
 
-    vector<FileDataContainers::RoomInfo> info;
+    vector<RoomInfo> info;
     for(auto user = root.begin(); user != root.end() ; user++)
     {
-        FileDataContainers::RoomInfo room_info;
+        RoomInfo room_info;
         room_info.number = (*user)["number"].asInt();
         room_info.status = (*user)["status"].asInt();
         room_info.price = (*user)["price"].asInt();
@@ -165,10 +165,10 @@ vector<FileDataContainers::RoomInfo> Manager::read_rooms_info()
     return info;
 }
 
-void Manager::write_users_info(vector<FileDataContainers::UserInfo> info)
+void Manager::write_users_info(vector<UserInfo> info)
 {
     Json::Value root;
-    ofstream output_file(Paths::USERS_DATA_PATH, ifstream::binary);
+    ofstream output_file(USERS_DATA_PATH, ifstream::binary);
     for(auto user_info : info)
     {
         Json::Value user; 
@@ -187,10 +187,10 @@ void Manager::write_users_info(vector<FileDataContainers::UserInfo> info)
     output_file << root << endl;
 }
 
-void Manager::write_rooms_info(vector<FileDataContainers::RoomInfo> info)
+void Manager::write_rooms_info(vector<RoomInfo> info)
 {
     Json::Value root;
-    ofstream output_file(Paths::ROOMS_DATA_PATH, ifstream::binary);
+    ofstream output_file(ROOMS_DATA_PATH, ifstream::binary);
     for(auto room_info : info)
     {
         Json::Value room; 
@@ -245,12 +245,12 @@ void Manager::load_data()
 void Manager::save_data()
 {
     //users
-    vector<FileDataContainers::UserInfo> info;
+    vector<UserInfo> info;
     for(auto user : all_users)
         info.push_back(user->get_data_for_write());
     write_users_info(info);
     //rooms
-    vector<FileDataContainers::RoomInfo> sec_info;
+    vector<RoomInfo> sec_info;
     for(auto room : all_rooms)
         sec_info.push_back(room->get_data_for_write());
     write_rooms_info(sec_info);

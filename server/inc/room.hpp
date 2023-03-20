@@ -31,7 +31,7 @@ public:
     void check_cancel_options(int number_of_canceling_bed, std::shared_ptr<Rent> rent, DateConfig* today);
     void leave_room(int id, DateConfig* today);
     void eject(int new_capacity, DateConfig* today);
-    FileDataContainers::RoomInfo get_data_for_write();
+    RoomInfo get_data_for_write();
 private:
     std::string convert_DataConfig_to_string(DateConfig data_config);
     long int calc_distance(DateConfig* date);
