@@ -1,4 +1,0 @@
-[Mon Mar 20 16:20:02 2023 User with fd 4] signin username Admin password admin 
-[Mon Mar 20 16:20:02 2023 Server with fd 4] [31mError 230: USER_LOGED_IN[37m
-[Mon Mar 20 16:20:07 2023 User with fd 4] logout 
-[Mon Mar 20 16:20:07 2023 Server with fd 4] [31mError 201: USER_LOGED_OUT_SUCCESSFULLY[37m

@@ -1,0 +1,39 @@
+[Mon Mar 20 21:16:49 2023 User with fd 4] signin username Morad password 1234 
+[Mon Mar 20 21:16:49 2023 Server with fd 4] [31mError 230: USER_LOGED_IN[37m
+[Mon Mar 20 21:16:52 2023 User with fd 4] view_all_users 
+[Mon Mar 20 21:16:52 2023 Server with fd 4] [31mError 403: ACCESS_DENIED[37m
+[Mon Mar 20 21:16:55 2023 User with fd 4] view_user_information 
+[Mon Mar 20 21:16:55 2023 Server with fd 4] id: 1
+username: Morad
+password: 1234
+is_admin: 0
+purse: 1000
+phone_number: 00945692356
+address: Canada, Montral
+
+[Mon Mar 20 21:17:06 2023 User with fd 4] view_rooms_information 
+[Mon Mar 20 21:17:06 2023 Server with fd 4] number: 101
+status: EMPTY
+price: 100
+max_capacity: 2
+capacity: 2
+
+number: 102
+status: EMPTY
+price: 73
+max_capacity: 3
+capacity: 2
+
+number: 201
+status: FULL
+price: 100
+max_capacity: 2
+capacity: 0
+
+number: 301
+status: FULL
+price: 100
+max_capacity: 1
+capacity: 0
+
+
