@@ -36,6 +36,9 @@ Users can log in to the system to view their information and all available rooms
 ## How to run
 We use makefile to compile the program. There are two makefiles, one for server and one for client. The makefile for server is in the server folder and the makefile for client is in the client folder.
 
+
+**WARNING:** It's better to run the server first and then run the client.
+
 ### Server
 Compile the server program by running theses commands in the terminal:
 ```bash
